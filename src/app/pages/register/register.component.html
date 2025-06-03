@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="content">
+    <div class="imgCon">
+      <img src="assets/logo.png" alt="Google logo" />
+    </div>
+    <h3>Create your Google Account</h3>
+
+    <div class="half-Width">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput type="text" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput type="text" required />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>username</mat-label>
+      <input matInput required />
+    </mat-form-field>
+
+    <div class="meta-block">
+      <small class="hint">You can use letters, numbers & periods</small>
+      <a class="link">Use my current email instead</a>
+    </div>
+
+    <div class="password">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm</mat-label>
+        <input matInput type="password" required />
+      </mat-form-field>
+    </div>
+
+    <div class="hintC">
+      <small class="hint"
+        >Use 8 or more characters with a mix of letters, numbers &
+        symbols</small
+      >
+
+      <mat-checkbox (change)="visibility()">Show Password</mat-checkbox>
+    </div>
+
+    <div class="cont">
+      <a href="/login">Sign in instead</a>
+      <button mat-flat-button color="primary">Next</button>
+    </div>
+  </div>
+  <div class="image">
+    <img src="assets/gProduct.png" alt="Google Product" />
+    <p>One account. All of Google working for you.</p>
+  </div>
+</div>
