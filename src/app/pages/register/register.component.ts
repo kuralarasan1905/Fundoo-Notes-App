@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from 'src/app/services/user_service/user.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,7 @@ import { UserService } from 'src/app/services/user_service/user.service';
     ReactiveFormsModule,
     MatCheckboxModule,
     RouterLink,
+    MatSnackBarModule,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
@@ -45,7 +47,11 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   onSubmit() {
     if (this.userForm.valid) {
@@ -60,10 +66,18 @@ export class RegisterComponent implements OnInit {
       this.userService.register(payload).subscribe({
         next: (res: any) => {
           console.log('Signup Success:', res);
+          this.snackBar.open('Signup Successful!', 'Close', {
+            duration: 1000,
+            verticalPosition: 'top',
+          });
           this.router.navigate(['/login']);
         },
         error: (err) => {
           console.log('Signup Failed', err);
+          this.snackBar.open('Signup Failed. Try again.', 'Close', {
+            duration: 1000,
+            verticalPosition: 'top',
+          });
         },
       });
     } else {
