@@ -5,51 +5,103 @@
     </div>
     <h3>Create your Google Account</h3>
 
-    <div class="half-Width">
-      <mat-form-field appearance="outline">
-        <mat-label>First Name</mat-label>
-        <input matInput type="text" required />
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="half-Width">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" required formControlName="firstName" />
+          <mat-error
+            *ngIf="
+              userForm.get('firstName')?.touched &&
+              userForm.get('firstName')?.invalid
+            "
+          >
+            First name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" required formControlName="lastName" />
+          <mat-error
+            *ngIf="
+              userForm.get('lastName')?.touched &&
+              userForm.get('lastName')?.invalid
+            "
+          >
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" required formControlName="email" />
+        <mat-error
+          *ngIf="
+            userForm.get('email')?.touched && userForm.get('email')?.invalid
+          "
+        >
+          Username is required
+        </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input matInput type="text" required />
-      </mat-form-field>
-    </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>username</mat-label>
-      <input matInput required />
-    </mat-form-field>
+      <div class="meta-block">
+        <small class="hint">You can use letters, numbers & periods</small>
+        <a class="link">Use my current email instead</a>
+      </div>
 
-    <div class="meta-block">
-      <small class="hint">You can use letters, numbers & periods</small>
-      <a class="link">Use my current email instead</a>
-    </div>
+      <div class="password">
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="showPassword ? 'text' : 'password'"
+            required
+            formControlName="password"
+          />
+          <mat-error
+            *ngIf="
+              userForm.get('password')?.touched &&
+              userForm.get('password')?.invalid
+            "
+          >
+            Password is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm</mat-label>
+          <input matInput type="password" required formControlName="confirm" />
+          <mat-error
+            *ngIf="
+              userForm.get('confirm')?.touched &&
+              userForm.hasError('passMismatch')
+            "
+          >
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-    <div class="password">
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" required />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Confirm</mat-label>
-        <input matInput type="password" required />
-      </mat-form-field>
-    </div>
+      <div class="hintC">
+        <small class="hint"
+          >Use 8 or more characters with a mix of letters, numbers &
+          symbols</small
+        >
 
-    <div class="hintC">
-      <small class="hint"
-        >Use 8 or more characters with a mix of letters, numbers &
-        symbols</small
-      >
+        <mat-checkbox (change)="visibility()">Show Password</mat-checkbox>
+      </div>
 
-      <mat-checkbox (change)="visibility()">Show Password</mat-checkbox>
-    </div>
-
-    <div class="cont">
-      <a href="/login">Sign in instead</a>
-      <button mat-flat-button color="primary">Next</button>
-    </div>
+      <div class="cont">
+        <a routerLink="/login">Sign in instead</a>
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="!this.userForm.valid"
+        >
+          Next
+        </button>
+      </div>
+    </form>
   </div>
   <div class="image">
     <img src="assets/gProduct.png" alt="Google Product" />
