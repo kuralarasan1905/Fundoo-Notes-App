@@ -4,6 +4,9 @@
       mat-button
       class="sidebar-btn"
       [class.active]="selectedLabel === item.label"
+      [class.collapsed]="
+        selectedLabel === item.label && !(isExpanded || hoverLabel)
+      "
       (click)="select(item.label)"
       (mouseenter)="setHover(item.label)"
       (mouseleave)="clearHover()"

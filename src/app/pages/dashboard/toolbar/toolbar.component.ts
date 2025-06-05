@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +17,27 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit {
   @Output() toggle = new EventEmitter<void>();
+
+  isSearchOpen = false;
+  isLargeScreen = window.innerWidth > 796;
+
+  ngOnInit(): void {
+    this.updateScreenSize();
+  }
+
+  @HostListener('window:resize')
+  updateScreenSize() {
+    this.isLargeScreen = window.innerWidth > 796;
+    if (this.isLargeScreen) this.isSearchOpen = false;
+  }
+
+  openSearch() {
+    this.isSearchOpen = true;
+  }
+
+  closeSearch() {
+    this.isSearchOpen = false;
+  }
 }

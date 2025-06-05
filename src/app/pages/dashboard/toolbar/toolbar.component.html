@@ -1,22 +1,49 @@
 <mat-toolbar class="toolbar">
-  <button mat-icon-button (click)="toggle.emit()" class="menu-btn">
+  <button
+    mat-icon-button
+    class="menu-btn"
+    *ngIf="!isSearchOpen"
+    (click)="toggle.emit()"
+  >
     <mat-icon>menu</mat-icon>
   </button>
 
-  <img src="assets/keep.png" class="logo" />
-  <span class="title">Keep</span>
+  <img src="assets/keep.png" class="logo" *ngIf="!isSearchOpen" />
+  <span class="title" *ngIf="!isSearchOpen">Keep</span>
 
-  <span class="spacer"></span>
-
-  <!-- <button mat-icon-button><mat-icon>search</mat-icon></button> -->
-  <div class="search-container desktop-search">
-    <mat-icon>search</mat-icon>
+  <div
+    class="search-bar"
+    [class.expanded]="isSearchOpen"
+    *ngIf="isSearchOpen || isLargeScreen"
+  >
+    <button
+      mat-icon-button
+      class="back-btn"
+      *ngIf="!isLargeScreen"
+      (click)="closeSearch()"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
     <input matInput placeholder="Search" />
   </div>
 
-  <button mat-icon-button><mat-icon>refresh</mat-icon></button>
-  <button mat-icon-button><mat-icon>view_agenda</mat-icon></button>
-  <button mat-icon-button><mat-icon>settings</mat-icon></button>
-  <button mat-icon-button><mat-icon>apps</mat-icon></button>
-  <button mat-icon-button><mat-icon>account_circle</mat-icon></button>
+  <div class="actions">
+    <button
+      mat-icon-button
+      class="search-toggle"
+      *ngIf="!isLargeScreen || !isSearchOpen"
+      (click)="openSearch()"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+    <div class="cont1">
+      <button mat-icon-button><mat-icon>refresh</mat-icon></button>
+      <button mat-icon-button><mat-icon>view_agenda</mat-icon></button>
+      <button mat-icon-button><mat-icon>settings</mat-icon></button>
+    </div>
+    <div class="cont2">
+      <button mat-icon-button><mat-icon>apps</mat-icon></button>
+      <button mat-icon-button><mat-icon>account_circle</mat-icon></button>
+    </div>
+  </div>
 </mat-toolbar>
