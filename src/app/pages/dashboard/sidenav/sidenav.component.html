@@ -1,0 +1,20 @@
+<div class="sidebar-container" [class.expanded]="isExpanded || hoverLabel">
+  <ng-container *ngFor="let item of navItems">
+    <button
+      mat-button
+      class="sidebar-btn"
+      [class.active]="selectedLabel === item.label"
+      (click)="select(item.label)"
+      (mouseenter)="setHover(item.label)"
+      (mouseleave)="clearHover()"
+    >
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span *ngIf="isExpanded || hoverLabel">{{ item.label }}</span>
+    </button>
+  </ng-container>
+  <div class="sidebar-footer" *ngIf="isExpanded || hoverLabel">
+    <button mat-button class="sidebar-btn">
+      <span>Open-source licenses</span>
+    </button>
+  </div>
+</div>

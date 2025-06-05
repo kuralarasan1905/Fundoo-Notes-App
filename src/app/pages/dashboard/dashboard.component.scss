@@ -1,0 +1,23 @@
+.layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  margin-top: 64px;
+}
+
+.sidenav {
+  transition: width 0.3s ease;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  background-color: #202124;
+  color: white;
+  transition: margin-left 0.3s ease;
+}

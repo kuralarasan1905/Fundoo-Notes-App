@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+<div class="layout">
+  <app-toolbar (toggle)="toggleSidebar()" />
+
+  <div class="body">
+    <div class="sidenav" [ngClass]="{ expanded: isSidebarOpen }">
+      <app-sidenav [isExpanded]="isSidebarOpen" />
+    </div>
+
+    <div class="main-content" [style.marginLeft.px]="isSidebarOpen ? 240 : 72">
+      <p>Your notes go here...</p>
+    </div>
+  </div>
+</div>

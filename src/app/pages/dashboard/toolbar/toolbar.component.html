@@ -1,0 +1,22 @@
+<mat-toolbar class="toolbar">
+  <button mat-icon-button (click)="toggle.emit()" class="menu-btn">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <img src="assets/keep.png" class="logo" />
+  <span class="title">Keep</span>
+
+  <span class="spacer"></span>
+
+  <!-- <button mat-icon-button><mat-icon>search</mat-icon></button> -->
+  <div class="search-container desktop-search">
+    <mat-icon>search</mat-icon>
+    <input matInput placeholder="Search" />
+  </div>
+
+  <button mat-icon-button><mat-icon>refresh</mat-icon></button>
+  <button mat-icon-button><mat-icon>view_agenda</mat-icon></button>
+  <button mat-icon-button><mat-icon>settings</mat-icon></button>
+  <button mat-icon-button><mat-icon>apps</mat-icon></button>
+  <button mat-icon-button><mat-icon>account_circle</mat-icon></button>
+</mat-toolbar>
