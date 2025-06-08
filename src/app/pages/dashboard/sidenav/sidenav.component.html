@@ -7,7 +7,7 @@
       [class.collapsed]="
         selectedLabel === item.label && !(isExpanded || hoverLabel)
       "
-      (click)="select(item.label)"
+      (click)="select(item.label, item.route)"
       (mouseenter)="setHover(item.label)"
       (mouseleave)="clearHover()"
     >
@@ -15,6 +15,7 @@
       <span *ngIf="isExpanded || hoverLabel">{{ item.label }}</span>
     </button>
   </ng-container>
+
   <div class="sidebar-footer" *ngIf="isExpanded || hoverLabel">
     <button mat-button class="sidebar-btn">
       <span>Open-source licenses</span>

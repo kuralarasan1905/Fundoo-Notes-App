@@ -7,7 +7,17 @@
     </div>
 
     <div class="main-content" [style.marginLeft.px]="isSidebarOpen ? 240 : 72">
-      <p>Your notes go here...</p>
+      <!-- <app-notes (noteAdded)="handleNoteAdded($event)"></app-notes>
+
+      <div class="note-grid">
+        <app-note-card
+          *ngFor="let note of notes"
+          [note]="note"
+          (editNote)="handleNoteEdit($event)"
+          (deleteNote)="handleNoteDelete($event)"
+        ></app-note-card>
+      </div> -->
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

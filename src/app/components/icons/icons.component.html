@@ -1,0 +1,34 @@
+<div class="icons">
+  <div class="left-icon">
+    <button class="icon-btn" id="textFormat" *ngIf="showAll">
+      <mat-icon class="icon">text_format</mat-icon>
+    </button>
+    <button class="icon-btn" id="palette">
+      <mat-icon class="icon">palette</mat-icon>
+    </button>
+    <button class="icon-btn" id="notification">
+      <mat-icon class="icon">notification_important</mat-icon>
+    </button>
+    <button class="icon-btn" id="collaborator">
+      <mat-icon class="icon">person_add</mat-icon>
+    </button>
+    <button class="icon-btn" id="image">
+      <mat-icon class="icon">image</mat-icon>
+    </button>
+    <button class="icon-btn" id="archive">
+      <mat-icon class="icon">archive</mat-icon>
+    </button>
+    <button class="icon-btn" id="three-dots">
+      <mat-icon class="icon">more_vert</mat-icon>
+    </button>
+    <button class="icon-btn" id="undo" *ngIf="showAll">
+      <mat-icon class="icon">undo</mat-icon>
+    </button>
+    <button class="icon-btn" id="redo" *ngIf="showAll">
+      <mat-icon class="icon">redo</mat-icon>
+    </button>
+  </div>
+  <div class="right-icon">
+    <button id="close-btn" (click)="closeBox()" *ngIf="showAll">Close</button>
+  </div>
+</div>

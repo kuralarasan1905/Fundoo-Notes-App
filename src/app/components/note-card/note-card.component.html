@@ -1,0 +1,40 @@
+<div class="note-card" [class.editing]="isEditing">
+  <div *ngIf="!isEditing" class="note-content" (click)="onEdit()">
+    <h3 *ngIf="note.title" class="note-title">{{ note.title }}</h3>
+    <p class="note-description">{{ note.description }}</p>
+  </div>
+
+  <div *ngIf="isEditing" class="edit-content">
+    <input
+      [(ngModel)]="editTitle"
+      placeholder="Title"
+      class="edit-title"
+      type="text"
+    />
+    <textarea
+      [(ngModel)]="editDescription"
+      placeholder="Take a note..."
+      class="edit-description"
+      rows="4"
+    ></textarea>
+  </div>
+
+  <app-icons [showAll]="false" (closeBtn)="onCancel()"></app-icons>
+
+  <!-- <div class="note-actions" [class.visible]="!isEditing">
+    <button
+      class="action-btn"
+      (click)="onEdit(); $event.stopPropagation()"
+      aria-label="Edit note"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      class="action-btn"
+      (click)="onDelete(); $event.stopPropagation()"
+      aria-label="Delete"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div> -->
+</div>

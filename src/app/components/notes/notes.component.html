@@ -1,0 +1,35 @@
+<div class="note-form-container">
+  <form [formGroup]="notes" (ngSubmit)="onSubmit()" class="note-form">
+    <div class="form-content">
+      <input
+        formControlName="title"
+        placeholder="Title"
+        class="note-input"
+        type="text"
+        (click)="expandForm()"
+        (focus)="expandForm()"
+      />
+    </div>
+
+    <textarea
+      *ngIf="isExpanded"
+      formControlName="description"
+      placeholder="Take a note..."
+      class="note-textarea"
+      rows="3"
+    ></textarea>
+
+    <div *ngIf="isExpanded" class="form-footer">
+      <app-icons [showAll]="true" (closeBtn)="closeForm()"></app-icons>
+    </div>
+  </form>
+</div>
+
+<div class="note-grid">
+  <app-note-card
+    *ngFor="let note of noteList"
+    [note]="note"
+    (editNote)="onEditNote($event)"
+    (deleteNote)="onDeleteNote($event)"
+  ></app-note-card>
+</div>
