@@ -82,13 +82,19 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.isExpanded = false;
   }
 
-  onEditNote(updated: { noteId: string; title: string; description: string }) {
+  onEditNote(updated: {
+    noteId: string;
+    title: string;
+    description: string;
+    color: string;
+  }) {
     const index = this.noteList.findIndex((n) => n.id === updated.noteId);
     if (index > -1) {
       this.noteList[index] = {
         ...this.noteList[index],
         title: updated.title,
         description: updated.description,
+        color: updated.color,
       };
     }
   }

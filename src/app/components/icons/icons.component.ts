@@ -15,7 +15,7 @@ export class IconsComponent {
   @Output() closeBtn = new EventEmitter<boolean>();
 
   showPalette = false;
-  colors = ['#fff475', '#f28b82', '#ccff90', '#a7ffeb', '#d7aefb', '#fdcfe8'];
+  colors = ['#333333', '#1a237e', '#004d40', '#4a0000', '#2c3e50', '#2e3b2f'];
 
   togglePalette() {
     this.showPalette = !this.showPalette;

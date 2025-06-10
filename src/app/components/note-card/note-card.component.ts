@@ -29,6 +29,7 @@ export class NoteCardComponent {
     noteId: string;
     title: string;
     description: string;
+    color: string;
   }>();
   @Output() deleteNote = new EventEmitter<string>();
 
@@ -36,11 +37,13 @@ export class NoteCardComponent {
   editTitle = '';
   editDescription = '';
   noteColor: string = '#202124';
+  hover: boolean = false;
 
   onEdit(): void {
     this.isEditing = true;
     this.editTitle = this.note.title;
     this.editDescription = this.note.description;
+    this.noteColor = this.note.color || '#202124';
   }
 
   setColor(color: string) {
@@ -53,7 +56,9 @@ export class NoteCardComponent {
         noteId: this.note.id,
         title: this.editTitle.trim(),
         description: this.editDescription.trim(),
+        color: this.noteColor,
       });
+
       this.isEditing = false;
     }
   }

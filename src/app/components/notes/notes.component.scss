@@ -123,3 +123,59 @@
   flex-direction: column;
   gap: 12px;
 }
+
+@media (max-width: 768px) {
+  .note-form-container {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+
+  .form-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .note-input {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .note-textarea {
+    font-size: 13px;
+    padding: 4px 12px;
+  }
+
+  .footer-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .close-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .note-grid.grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .note-grid.grid {
+    grid-template-columns: 1fr;
+  }
+
+  .note-form-container {
+    padding: 0 8px;
+  }
+
+  .note-input,
+  .note-textarea {
+    font-size: 14px;
+  }
+
+  .form-footer {
+    padding: 8px;
+  }
+}

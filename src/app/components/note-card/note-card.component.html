@@ -1,6 +1,10 @@
 <div
   class="note-card"
-  [ngStyle]="{ 'background-color': note.color || '#202124' }"
+  [ngStyle]="{
+    'background-color': isEditing ? noteColor : note.color || '#202124'
+  }"
+  (mouseenter)="hover = true"
+  (mouseleave)="hover = false"
 >
   <div *ngIf="!isEditing" class="note-content" (click)="onEdit()">
     <h3 *ngIf="note.title" class="note-title">{{ note.title }}</h3>
@@ -22,11 +26,15 @@
     ></textarea>
   </div>
 
-  <app-icons
-    [showAll]="false"
-    (closeBtn)="onCancel()"
-    (colorSelect)="setColor($event)"
-  ></app-icons>
+  <div class="note-footer">
+    <div class="note-actions">
+      <app-icons
+        [showAll]="false"
+        (colorSelect)="setColor($event)"
+        (closeBtn)="onCancel()"
+      ></app-icons>
+    </div>
+  </div>
 
   <!-- <div class="note-actions" [class.visible]="!isEditing">
     <button

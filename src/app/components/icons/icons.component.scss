@@ -2,15 +2,64 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
   margin-top: 8px;
   padding: 4px 12px 4px 0;
   color: #e8eaed;
-  gap: 4rem;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 1.2rem;
+    padding: 4px 8px;
+  }
+
+  @media (max-width: 600px) {
+    gap: 0.8rem;
+
+    .icon-btn {
+      padding: 6px;
+
+      .icon {
+        font-size: 18px;
+      }
+    }
+
+    #close-btn {
+      font-size: 13px;
+      padding: 6px 10px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    gap: 0.5rem;
+
+    .icon-btn {
+      padding: 4px;
+
+      .icon {
+        font-size: 16px;
+      }
+    }
+
+    #close-btn {
+      font-size: 12px;
+      padding: 5px 8px;
+    }
+  }
 }
 
 .left-icon {
   display: flex;
-  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  @media (max-width: 768px) {
+    margin-left: -1rem;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .right-icon {
@@ -50,29 +99,5 @@
 
   &:hover {
     background-color: rgba(232, 234, 237, 0.08);
-  }
-}
-
-.color-palette {
-  position: absolute;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  background: #3c3f43;
-  padding: 8px;
-  border-radius: 8px;
-  margin-top: 6px;
-  z-index: 10;
-}
-
-.color-swatch {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 1px solid #ccc;
-
-  &:hover {
-    border: 2px solid #fff;
   }
 }
