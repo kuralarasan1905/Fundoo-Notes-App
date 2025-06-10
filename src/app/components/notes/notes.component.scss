@@ -111,3 +111,15 @@
   gap: 16px;
   margin-top: 24px;
 }
+
+.note-grid.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.note-grid.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

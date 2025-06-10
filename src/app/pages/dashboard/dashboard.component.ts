@@ -7,6 +7,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 // import { NoteCardComponent } from 'src/app/components/note-card/note-card.component';
 // import { Note } from 'src/app/model/note';
 import { RouterLink, RouterModule } from '@angular/router';
+import { ViewService } from 'src/app/services/view.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,6 +32,12 @@ export class DashboardComponent {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  constructor(private viewService: ViewService) {}
+
+  handleViewToggle(isGrid: boolean) {
+    this.viewService.setViewMode(isGrid ? 'grid' : 'list');
   }
 
   // handleNoteAdded(note: Note) {

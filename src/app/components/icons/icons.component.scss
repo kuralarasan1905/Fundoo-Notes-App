@@ -10,7 +10,7 @@
 
 .left-icon {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .right-icon {
@@ -50,5 +50,29 @@
 
   &:hover {
     background-color: rgba(232, 234, 237, 0.08);
+  }
+}
+
+.color-palette {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: #3c3f43;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 6px;
+  z-index: 10;
+}
+
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #ccc;
+
+  &:hover {
+    border: 2px solid #fff;
   }
 }

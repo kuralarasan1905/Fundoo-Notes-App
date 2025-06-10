@@ -3,9 +3,20 @@
     <button class="icon-btn" id="textFormat" *ngIf="showAll">
       <mat-icon class="icon">text_format</mat-icon>
     </button>
-    <button class="icon-btn" id="palette">
+
+    <button class="icon-btn" id="palette" (click)="togglePalette()">
       <mat-icon class="icon">palette</mat-icon>
     </button>
+
+    <div class="color-palette" *ngIf="showPalette">
+      <div
+        *ngFor="let color of colors"
+        class="color-swatch"
+        [style.backgroundColor]="color"
+        (click)="selectColor(color)"
+      ></div>
+    </div>
+
     <button class="icon-btn" id="notification">
       <mat-icon class="icon">notification_important</mat-icon>
     </button>
@@ -28,6 +39,7 @@
       <mat-icon class="icon">redo</mat-icon>
     </button>
   </div>
+
   <div class="right-icon">
     <button id="close-btn" (click)="closeBox()" *ngIf="showAll">Close</button>
   </div>

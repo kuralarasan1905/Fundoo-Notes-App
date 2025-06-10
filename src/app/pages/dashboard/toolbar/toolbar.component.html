@@ -38,7 +38,10 @@
     </button>
     <div class="cont1">
       <button mat-icon-button><mat-icon>refresh</mat-icon></button>
-      <button mat-icon-button><mat-icon>view_agenda</mat-icon></button>
+      <button mat-icon-button (click)="toggleView()">
+        <mat-icon>{{ isGridView ? "grid_view" : "view_agenda" }}</mat-icon>
+      </button>
+
       <button mat-icon-button><mat-icon>settings</mat-icon></button>
     </div>
     <div class="cont2">

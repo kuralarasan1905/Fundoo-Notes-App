@@ -1,4 +1,7 @@
-<div class="note-card" [class.editing]="isEditing">
+<div
+  class="note-card"
+  [ngStyle]="{ 'background-color': note.color || '#202124' }"
+>
   <div *ngIf="!isEditing" class="note-content" (click)="onEdit()">
     <h3 *ngIf="note.title" class="note-title">{{ note.title }}</h3>
     <p class="note-description">{{ note.description }}</p>
@@ -19,7 +22,11 @@
     ></textarea>
   </div>
 
-  <app-icons [showAll]="false" (closeBtn)="onCancel()"></app-icons>
+  <app-icons
+    [showAll]="false"
+    (closeBtn)="onCancel()"
+    (colorSelect)="setColor($event)"
+  ></app-icons>
 
   <!-- <div class="note-actions" [class.visible]="!isEditing">
     <button

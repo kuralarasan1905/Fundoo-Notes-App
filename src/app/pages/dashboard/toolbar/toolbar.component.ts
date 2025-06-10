@@ -19,9 +19,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 })
 export class ToolbarComponent implements OnInit {
   @Output() toggle = new EventEmitter<void>();
+  @Output() viewToggle = new EventEmitter<boolean>();
 
   isSearchOpen = false;
   isLargeScreen = window.innerWidth > 796;
+  isGridView = false;
 
   ngOnInit(): void {
     this.updateScreenSize();
@@ -39,5 +41,10 @@ export class ToolbarComponent implements OnInit {
 
   closeSearch() {
     this.isSearchOpen = false;
+  }
+
+  toggleView() {
+    this.isGridView = !this.isGridView;
+    this.viewToggle.emit(this.isGridView);
   }
 }

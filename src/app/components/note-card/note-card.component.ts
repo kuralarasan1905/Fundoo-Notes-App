@@ -35,11 +35,16 @@ export class NoteCardComponent {
   isEditing = false;
   editTitle = '';
   editDescription = '';
+  noteColor: string = '#202124';
 
   onEdit(): void {
     this.isEditing = true;
     this.editTitle = this.note.title;
     this.editDescription = this.note.description;
+  }
+
+  setColor(color: string) {
+    this.noteColor = color;
   }
 
   onSave(): void {

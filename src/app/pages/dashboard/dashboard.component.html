@@ -1,5 +1,8 @@
 <div class="layout">
-  <app-toolbar (toggle)="toggleSidebar()" />
+  <app-toolbar
+    (toggle)="toggleSidebar()"
+    (viewToggle)="handleViewToggle($event)"
+  />
 
   <div class="body">
     <div class="sidenav" [ngClass]="{ expanded: isSidebarOpen }">

@@ -1,5 +1,9 @@
 <div class="note-form-container">
-  <form [formGroup]="notes" (ngSubmit)="onSubmit()" class="note-form">
+  <form
+    [formGroup]="notes"
+    class="note-form"
+    [ngStyle]="{ 'background-color': selectedColor }"
+  >
     <div class="form-content">
       <input
         formControlName="title"
@@ -20,12 +24,16 @@
     ></textarea>
 
     <div *ngIf="isExpanded" class="form-footer">
-      <app-icons [showAll]="true" (closeBtn)="closeForm()"></app-icons>
+      <app-icons
+        [showAll]="true"
+        (colorSelect)="onColorSelected($event)"
+        (closeBtn)="onCloseNote($event)"
+      ></app-icons>
     </div>
   </form>
 </div>
 
-<div class="note-grid">
+<div class="note-grid" [ngClass]="viewMode">
   <app-note-card
     *ngFor="let note of noteList"
     [note]="note"
