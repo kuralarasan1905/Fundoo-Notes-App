@@ -25,4 +25,19 @@ export class NoteService {
     let headers = this.http.getHeader();
     return this.http.getApi('/notes/getArchiveNotesList', headers);
   }
+
+  postTrashNote(payload: { noteIdList: string[]; isDeleted: boolean }) {
+    const headers = this.http.getHeader();
+    return this.http.postApi('/notes/trashNotes', payload, headers);
+  }
+
+  getTrashList() {
+    let headers = this.http.getHeader();
+    return this.http.getApi('/notes/getTrashNotesList', headers);
+  }
+
+  deleteForeverNotes(payload: { noteIdList: string[]; isDeleted: boolean }) {
+    const headers = this.http.getHeader();
+    return this.http.postApi('/notes/deleteForeverNotes', payload, headers);
+  }
 }

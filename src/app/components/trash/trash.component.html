@@ -1,1 +1,7 @@
-<p>trash works!</p>
+<app-note-card
+  *ngFor="let note of noteList"
+  [note]="note"
+  [inTrash]="true"
+  (restoreNote)="onRestoreNote($event)"
+  (deletePermanently)="onDeleteForever($event)"
+></app-note-card>

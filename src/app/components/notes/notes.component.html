@@ -1,44 +1,58 @@
-<div class="note-form-container">
-  <form
-    [formGroup]="notes"
-    class="note-form"
-    [ngStyle]="{ 'background-color': selectedColor }"
-  >
-    <div class="form-content">
-      <input
-        formControlName="title"
-        placeholder="Title"
-        class="note-input"
-        type="text"
-        (click)="expandForm()"
-        (focus)="expandForm()"
-      />
-    </div>
+<div class="note-shared-wrapper">
+  <div class="note-form-container">
+    <form
+      [formGroup]="notes"
+      class="note-form"
+      [ngStyle]="{ 'background-color': selectedColor }"
+    >
+      <div class="form-content">
+        <input
+          formControlName="title"
+          placeholder="Title"
+          class="note-input"
+          type="text"
+          (click)="expandForm()"
+          (focus)="expandForm()"
+        />
+      </div>
 
-    <textarea
-      *ngIf="isExpanded"
-      formControlName="description"
-      placeholder="Take a note..."
-      class="note-textarea"
-      rows="3"
-    ></textarea>
+      <textarea
+        *ngIf="isExpanded"
+        formControlName="description"
+        placeholder="Take a note..."
+        class="note-textarea"
+        rows="3"
+      ></textarea>
 
-    <div *ngIf="isExpanded" class="form-footer">
-      <app-icons
-        [showAll]="true"
-        (colorSelect)="onColorSelected($event)"
-        (closeBtn)="onCloseNote($event)"
-      ></app-icons>
-    </div>
-  </form>
+      <div *ngIf="isExpanded" class="form-footer">
+        <app-icons
+          [showAll]="true"
+          (colorSelect)="onColorSelected($event)"
+          (closeBtn)="onCloseNote($event)"
+        ></app-icons>
+      </div>
+    </form>
+  </div>
+
+  <!-- LIST VIEW (Constrained width) -->
+  <div *ngIf="viewMode === 'list'" class="note-grid list">
+    <app-note-card
+      *ngFor="let note of filteredNotes"
+      [note]="note"
+      (editNote)="onEditNote($event)"
+      (archiveNote)="onArchiveNote($event)"
+      (moveToTrash)="onTrashNote($event)"
+    ></app-note-card>
+  </div>
 </div>
 
-<div class="note-grid" [ngClass]="viewMode">
+<!-- GRID VIEW (Full width) -->
+<div *ngIf="viewMode === 'grid'" class="note-grid grid">
   <app-note-card
     *ngFor="let note of filteredNotes"
     [note]="note"
     (editNote)="onEditNote($event)"
-    (deleteNote)="onDeleteNote($event)"
     (archiveNote)="onArchiveNote($event)"
+    (moveToTrash)="onTrashNote($event)"
   ></app-note-card>
 </div>

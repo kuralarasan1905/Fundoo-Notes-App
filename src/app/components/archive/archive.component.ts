@@ -20,6 +20,22 @@ export class ArchiveComponent implements OnInit {
     this.loadArchivedNotes();
   }
 
+  onArchiveNote(payload: { id: string; isArchived: boolean }): void {
+    this.noteService
+      .postArchiveList({
+        noteIdList: [payload.id],
+        isArchived: payload.isArchived,
+      })
+      .subscribe({
+        next: () => {
+          this.archivedNotes = this.archivedNotes.filter(
+            (n) => n.id !== payload.id
+          );
+        },
+        error: (err) => console.error('Unarchive failed:', err),
+      });
+  }
+
   loadArchivedNotes() {
     this.noteService.getArchiveNoteListApiCall().subscribe({
       next: (res: any) => {

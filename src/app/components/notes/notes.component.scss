@@ -52,37 +52,12 @@
   }
 }
 
-.form-actions {
-  display: flex;
-  gap: 8px;
-}
-
 .form-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
   border-top: 1px solid #5f6368;
-}
-
-.footer-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  background: none;
-  border: none;
-  color: #9aa0a6;
-  padding: 8px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #313235;
-    color: #e8eaed;
-  }
 }
 
 .close-btn {
@@ -105,23 +80,25 @@
     cursor: not-allowed;
   }
 }
-.note-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-  margin-top: 24px;
-}
 
 .note-grid.grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 12px;
+  margin-top: 24px;
+  padding: 0 16px;
 }
 
 .note-grid.list {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-top: 24px;
+  padding: 0 16px;
+
+  app-note-card {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -146,27 +123,19 @@
     padding: 4px 12px;
   }
 
-  .footer-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .close-btn {
-    width: 100%;
-    text-align: center;
-  }
-
   .note-grid.grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding: 0 12px;
   }
 }
 
 @media (max-width: 480px) {
-  .note-grid.grid {
-    grid-template-columns: 1fr;
+  .note-form-container {
+    padding: 0 8px;
   }
 
-  .note-form-container {
+  .note-grid.grid {
+    grid-template-columns: 1fr;
     padding: 0 8px;
   }
 
@@ -177,5 +146,51 @@
 
   .form-footer {
     padding: 8px;
+  }
+}
+
+.note-shared-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.note-grid.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+
+  app-note-card {
+    width: 100%;
+  }
+}
+
+.note-grid.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+  padding: 0 16px;
+}
+
+@media (max-width: 768px) {
+  .note-shared-wrapper {
+    padding: 0 12px;
+  }
+
+  .note-grid.grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .note-shared-wrapper {
+    padding: 0 8px;
+  }
+
+  .note-grid.grid {
+    grid-template-columns: 1fr;
+    padding: 0 8px;
   }
 }

@@ -1,43 +1,83 @@
 <div class="icons">
   <div class="left-icon">
-    <button class="icon-btn" id="textFormat" *ngIf="showAll">
-      <mat-icon class="icon">text_format</mat-icon>
-    </button>
+    <!-- TRASH MODE -->
+    <ng-container *ngIf="inTrash; else normalIcons">
+      <button
+        class="icon-btn"
+        (click)="restoreNote.emit()"
+        matTooltip="Restore"
+      >
+        <mat-icon class="icon">restore_from_trash</mat-icon>
+      </button>
 
-    <button class="icon-btn" id="palette" (click)="togglePalette()">
-      <mat-icon class="icon">palette</mat-icon>
-    </button>
+      <button
+        class="icon-btn"
+        (click)="deletePermanently.emit()"
+        matTooltip="Delete forever"
+      >
+        <mat-icon class="icon">delete_forever</mat-icon>
+      </button>
+    </ng-container>
 
-    <div class="color-palette" *ngIf="showPalette">
-      <div
-        *ngFor="let color of colors"
-        class="color-swatch"
-        [style.backgroundColor]="color"
-        (click)="selectColor(color)"
-      ></div>
-    </div>
+    <!-- NON-TRASH ICONS -->
+    <ng-template #normalIcons>
+      <button class="icon-btn" id="textFormat" *ngIf="showAll">
+        <mat-icon class="icon">text_format</mat-icon>
+      </button>
 
-    <button class="icon-btn" id="notification">
-      <mat-icon class="icon">notification_important</mat-icon>
-    </button>
-    <button class="icon-btn" id="collaborator">
-      <mat-icon class="icon">person_add</mat-icon>
-    </button>
-    <button class="icon-btn" id="image">
-      <mat-icon class="icon">image</mat-icon>
-    </button>
-    <button class="icon-btn" id="archive" (click)="archiveNote.emit()">
-      <mat-icon class="icon">archive</mat-icon>
-    </button>
-    <button class="icon-btn" id="three-dots">
-      <mat-icon class="icon">more_vert</mat-icon>
-    </button>
-    <button class="icon-btn" id="undo" *ngIf="showAll">
-      <mat-icon class="icon">undo</mat-icon>
-    </button>
-    <button class="icon-btn" id="redo" *ngIf="showAll">
-      <mat-icon class="icon">redo</mat-icon>
-    </button>
+      <button class="icon-btn" id="palette" (click)="togglePalette()">
+        <mat-icon class="icon">palette</mat-icon>
+      </button>
+
+      <div class="color-palette" *ngIf="showPalette">
+        <div
+          *ngFor="let color of colors"
+          class="color-swatch"
+          [style.backgroundColor]="color"
+          (click)="selectColor(color)"
+        ></div>
+      </div>
+
+      <button class="icon-btn" id="notification">
+        <mat-icon class="icon">notification_important</mat-icon>
+      </button>
+      <button class="icon-btn" id="collaborator">
+        <mat-icon class="icon">person_add</mat-icon>
+      </button>
+      <button class="icon-btn" id="image">
+        <mat-icon class="icon">image</mat-icon>
+      </button>
+      <button
+        class="icon-btn"
+        id="archive"
+        (click)="toggleArchive.emit(!isArchived)"
+      >
+        <mat-icon class="icon">{{
+          isArchived ? "unarchive" : "archive"
+        }}</mat-icon>
+      </button>
+
+      <button class="icon-btn" id="three-dots" [matMenuTriggerFor]="moreMenu">
+        <mat-icon class="icon">more_vert</mat-icon>
+      </button>
+
+      <mat-menu #moreMenu="matMenu">
+        <button mat-menu-item (click)="moveToTrash.emit()">Delete note</button>
+        <button mat-menu-item>Add label</button>
+        <button mat-menu-item>Add drawing</button>
+        <button mat-menu-item>Make a copy</button>
+        <button mat-menu-item>Show checkboxes</button>
+        <button mat-menu-item>Copy to Google Docs</button>
+        <button mat-menu-item>Version history</button>
+      </mat-menu>
+
+      <button class="icon-btn" id="undo" *ngIf="showAll">
+        <mat-icon class="icon">undo</mat-icon>
+      </button>
+      <button class="icon-btn" id="redo" *ngIf="showAll">
+        <mat-icon class="icon">redo</mat-icon>
+      </button>
+    </ng-template>
   </div>
 
   <div class="right-icon">

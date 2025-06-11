@@ -25,6 +25,7 @@ import { IconsComponent } from '../icons/icons.component';
 })
 export class NoteCardComponent {
   @Input() note!: Note;
+  @Input() inTrash: boolean = false;
   @Output() editNote = new EventEmitter<{
     noteId: string;
     title: string;
@@ -32,6 +33,13 @@ export class NoteCardComponent {
     color: string;
   }>();
   @Output() deleteNote = new EventEmitter<string>();
+  @Output() moveToTrash = new EventEmitter<string>();
+  @Output() restoreNote = new EventEmitter<string>();
+  @Output() deletePermanently = new EventEmitter<string>();
+  @Output() archiveNote = new EventEmitter<{
+    id: string;
+    isArchived: boolean;
+  }>();
 
   isEditing = false;
   editTitle = '';
@@ -39,10 +47,22 @@ export class NoteCardComponent {
   noteColor: string = '#202124';
   hover: boolean = false;
 
-  @Output() archiveNote = new EventEmitter<string>();
+  toggleArchiveStatus(isArchived: boolean) {
+    this.archiveNote.emit({ id: this.note.id, isArchived });
+  }
 
-  archiveThisNote() {
-    this.archiveNote.emit(this.note.id);
+  onDelete(): void {
+    if (this.note.id) {
+      this.moveToTrash.emit(this.note.id);
+    }
+  }
+
+  restoreThisNote() {
+    this.restoreNote.emit(this.note.id);
+  }
+
+  deleteThisNoteForever() {
+    this.deletePermanently.emit(this.note.id);
   }
 
   onEdit(): void {
@@ -73,11 +93,5 @@ export class NoteCardComponent {
     this.isEditing = false;
     this.editTitle = '';
     this.editDescription = '';
-  }
-
-  onDelete(): void {
-    if (this.note.id) {
-      this.deleteNote.emit(this.note.id);
-    }
   }
 }

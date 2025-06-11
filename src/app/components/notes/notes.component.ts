@@ -140,10 +140,6 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDeleteNote(noteId: string) {
-    this.noteList = this.noteList.filter((n) => n.id !== noteId);
-  }
-
   get filteredNotes(): Note[] {
     const query = this.searchText.toLowerCase();
     return this.noteList.filter(
@@ -153,17 +149,28 @@ export class NotesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onArchiveNote(noteId: string) {
+  onArchiveNote(payload: { id: string; isArchived: boolean }) {
     this.noteService
       .postArchiveList({
-        noteIdList: [noteId],
-        isArchived: true,
+        noteIdList: [payload.id],
+        isArchived: payload.isArchived,
       })
+      .subscribe({
+        next: () => {
+          this.noteList = this.noteList.filter((n) => n.id !== payload.id);
+        },
+        error: (err) => console.error('Archive/unarchive failed:', err),
+      });
+  }
+
+  onTrashNote(noteId: string) {
+    this.noteService
+      .postTrashNote({ noteIdList: [noteId], isDeleted: true })
       .subscribe({
         next: () => {
           this.noteList = this.noteList.filter((n) => n.id !== noteId);
         },
-        error: (err) => console.error('Failed to archive note:', err),
+        error: (err) => console.error('Failed to move note to trash:', err),
       });
   }
 }

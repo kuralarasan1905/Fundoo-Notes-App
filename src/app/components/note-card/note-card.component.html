@@ -30,27 +30,15 @@
     <div class="note-actions">
       <app-icons
         [showAll]="false"
+        [isArchived]="note.isArchived ?? false"
         (colorSelect)="setColor($event)"
         (closeBtn)="onCancel()"
-        (archiveNote)="archiveThisNote()"
+        (toggleArchive)="toggleArchiveStatus($event)"
+        [inTrash]="inTrash"
+        (moveToTrash)="onDelete()"
+        (restoreNote)="restoreThisNote()"
+        (deletePermanently)="deleteThisNoteForever()"
       ></app-icons>
     </div>
   </div>
-
-  <!-- <div class="note-actions" [class.visible]="!isEditing">
-    <button
-      class="action-btn"
-      (click)="onEdit(); $event.stopPropagation()"
-      aria-label="Edit note"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      class="action-btn"
-      (click)="onDelete(); $event.stopPropagation()"
-      aria-label="Delete"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div> -->
 </div>
