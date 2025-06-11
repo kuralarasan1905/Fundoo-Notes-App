@@ -35,9 +35,10 @@
 
 <div class="note-grid" [ngClass]="viewMode">
   <app-note-card
-    *ngFor="let note of noteList"
+    *ngFor="let note of filteredNotes"
     [note]="note"
     (editNote)="onEditNote($event)"
     (deleteNote)="onDeleteNote($event)"
+    (archiveNote)="onArchiveNote($event)"
   ></app-note-card>
 </div>

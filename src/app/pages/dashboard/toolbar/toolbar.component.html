@@ -2,8 +2,8 @@
   <button
     mat-icon-button
     class="menu-btn"
-    *ngIf="!isSearchOpen"
     (click)="toggle.emit()"
+    *ngIf="!isSearchOpen"
   >
     <mat-icon>menu</mat-icon>
   </button>
@@ -24,26 +24,33 @@
     >
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <input matInput placeholder="Search" />
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      matInput
+      placeholder="Search"
+      [(ngModel)]="searchQuery"
+      (input)="onSearchInput($event)"
+    />
   </div>
 
   <div class="actions">
     <button
       mat-icon-button
       class="search-toggle"
-      *ngIf="!isLargeScreen || !isSearchOpen"
+      *ngIf="!isLargeScreen && !isSearchOpen"
       (click)="openSearch()"
     >
       <mat-icon>search</mat-icon>
     </button>
+
     <div class="cont1">
       <button mat-icon-button><mat-icon>refresh</mat-icon></button>
-      <button mat-icon-button (click)="toggleView()">
+      <button mat-icon-button (click)="toggleView()" *ngIf="isLargeScreen">
         <mat-icon>{{ isGridView ? "grid_view" : "view_agenda" }}</mat-icon>
       </button>
-
       <button mat-icon-button><mat-icon>settings</mat-icon></button>
     </div>
+
     <div class="cont2">
       <button mat-icon-button><mat-icon>apps</mat-icon></button>
       <button mat-icon-button><mat-icon>account_circle</mat-icon></button>

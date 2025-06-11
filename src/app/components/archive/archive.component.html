@@ -1,1 +1,8 @@
-<p>archive works!</p>
+<div class="note-grid">
+  <app-note-card
+    *ngFor="let note of archivedNotes"
+    [note]="note"
+    (editNote)="onEditNote($event)"
+    (deleteNote)="onDeleteNote($event)"
+  ></app-note-card>
+</div>

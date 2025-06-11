@@ -9,30 +9,53 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FormsModule } from '@angular/forms';
+import { SearchService } from 'src/app/search.service';
 
 @Component({
   selector: 'app-toolbar',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+  ],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
   @Output() toggle = new EventEmitter<void>();
   @Output() viewToggle = new EventEmitter<boolean>();
-
+  @Output() search = new EventEmitter<string>();
+  searchQuery = '';
   isSearchOpen = false;
-  isLargeScreen = window.innerWidth > 796;
-  isGridView = false;
+  isLargeScreen = window.innerWidth >= 600;
+  isGridView = this.isLargeScreen;
+
+  constructor(private searchService: SearchService) {}
+
+  onSearchInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.searchService.setSearch(input.value);
+  }
 
   ngOnInit(): void {
     this.updateScreenSize();
+    this.viewToggle.emit(this.isGridView);
   }
 
   @HostListener('window:resize')
   updateScreenSize() {
-    this.isLargeScreen = window.innerWidth > 796;
-    if (this.isLargeScreen) this.isSearchOpen = false;
+    this.isLargeScreen = window.innerWidth >= 600;
+    if (!this.isLargeScreen) {
+      this.isGridView = false;
+      this.viewToggle.emit(false);
+    }
+    if (this.isLargeScreen) {
+      this.isSearchOpen = false;
+    }
   }
 
   openSearch() {

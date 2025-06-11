@@ -13,6 +13,7 @@ export class IconsComponent {
   @Input() showAll: boolean = false;
   @Output() colorSelect = new EventEmitter<string>();
   @Output() closeBtn = new EventEmitter<boolean>();
+  @Output() archiveNote = new EventEmitter<void>();
 
   showPalette = false;
   colors = ['#333333', '#1a237e', '#004d40', '#4a0000', '#2c3e50', '#2e3b2f'];

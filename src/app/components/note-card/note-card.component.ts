@@ -39,6 +39,12 @@ export class NoteCardComponent {
   noteColor: string = '#202124';
   hover: boolean = false;
 
+  @Output() archiveNote = new EventEmitter<string>();
+
+  archiveThisNote() {
+    this.archiveNote.emit(this.note.id);
+  }
+
   onEdit(): void {
     this.isEditing = true;
     this.editTitle = this.note.title;

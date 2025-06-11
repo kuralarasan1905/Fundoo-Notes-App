@@ -9,6 +9,8 @@ import { Note } from 'src/app/model/note';
 import { NoteCardComponent } from '../note-card/note-card.component';
 import { Subscription } from 'rxjs';
 import { ViewService } from 'src/app/services/view.service';
+import { NoteService } from 'src/app/services/note_service/note.service';
+import { SearchService } from 'src/app/search.service';
 
 @Component({
   selector: 'app-notes',
@@ -35,11 +37,19 @@ export class NotesComponent implements OnInit, OnDestroy {
   viewMode: 'grid' | 'list' = 'grid';
   private viewSub!: Subscription;
 
+  private searchSub!: Subscription;
+  searchText = '';
+
   onColorSelected(color: string) {
     this.selectedColor = color;
   }
 
-  constructor(private viewService: ViewService, private fb: FormBuilder) {
+  constructor(
+    private viewService: ViewService,
+    private fb: FormBuilder,
+    private noteService: NoteService,
+    private searchService: SearchService
+  ) {
     this.notes = this.fb.group({
       title: [''],
       description: [''],
@@ -50,10 +60,26 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.viewSub = this.viewService.viewMode$.subscribe((mode) => {
       this.viewMode = mode;
     });
+    this.loadNotes();
+    this.searchSub = this.searchService.search$.subscribe((query) => {
+      this.searchText = query;
+    });
+  }
+
+  loadNotes() {
+    this.noteService.getAllNotes().subscribe({
+      next: (res: any) => {
+        this.noteList = res.data.data.filter(
+          (note: any) => !note.isArchived && !note.isDeleted
+        );
+      },
+      error: (err) => console.error('Failed to load notes', err),
+    });
   }
 
   ngOnDestroy() {
     this.viewSub?.unsubscribe();
+    this.searchSub?.unsubscribe();
   }
 
   expandForm(): void {
@@ -67,14 +93,29 @@ export class NotesComponent implements OnInit, OnDestroy {
       shouldSave &&
       (formValue.title?.trim() || formValue.description?.trim())
     ) {
-      const newNote: Note = {
-        id: Date.now().toString(),
+      const payload = {
         title: formValue.title.trim(),
         description: formValue.description.trim(),
+        isPined: false,
+        isArchived: false,
         color: this.selectedColor,
       };
 
-      this.noteList.unshift(newNote);
+      this.noteService.addNotes(payload).subscribe({
+        next: (res: any) => {
+          const addedNote = res.status.details;
+          console.log('Note Added', addedNote);
+          this.noteList.unshift({
+            id: addedNote.id,
+            title: addedNote.title,
+            description: addedNote.description,
+            color: addedNote.color,
+          });
+        },
+        error: (err) => {
+          console.error('Error adding note:', err);
+        },
+      });
     }
 
     this.notes.reset();
@@ -101,5 +142,28 @@ export class NotesComponent implements OnInit, OnDestroy {
 
   onDeleteNote(noteId: string) {
     this.noteList = this.noteList.filter((n) => n.id !== noteId);
+  }
+
+  get filteredNotes(): Note[] {
+    const query = this.searchText.toLowerCase();
+    return this.noteList.filter(
+      (note) =>
+        note.title.toLowerCase().includes(query) ||
+        note.description.toLowerCase().includes(query)
+    );
+  }
+
+  onArchiveNote(noteId: string) {
+    this.noteService
+      .postArchiveList({
+        noteIdList: [noteId],
+        isArchived: true,
+      })
+      .subscribe({
+        next: () => {
+          this.noteList = this.noteList.filter((n) => n.id !== noteId);
+        },
+        error: (err) => console.error('Failed to archive note:', err),
+      });
   }
 }

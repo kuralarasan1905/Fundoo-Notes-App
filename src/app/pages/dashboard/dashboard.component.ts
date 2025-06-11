@@ -29,6 +29,11 @@ import { ViewService } from 'src/app/services/view.service';
 export class DashboardComponent {
   isSidebarOpen = false;
   // notes: Note[] = [];
+  searchText = '';
+
+  onSearchChange(query: string) {
+    this.searchText = query.toLowerCase();
+  }
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;

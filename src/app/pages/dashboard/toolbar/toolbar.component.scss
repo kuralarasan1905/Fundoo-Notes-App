@@ -22,12 +22,15 @@
   .logo {
     height: 45px;
     margin-right: 8px;
+    flex-shrink: 0;
   }
 
   .title {
     font-size: 22px;
     font-weight: 400;
     margin-right: 6rem;
+    white-space: nowrap;
+    flex-shrink: 1;
   }
 
   .search-bar {
@@ -40,7 +43,7 @@
     flex: 1;
     max-width: 800px;
 
-    mat-icon {
+    .search-icon {
       margin-right: 8px;
       color: #e8eaed;
     }
@@ -69,8 +72,11 @@
   .actions {
     display: flex;
     align-items: center;
+    // flex-wrap: wrap;
     margin-left: auto;
     gap: 1.5rem;
+    min-width: 0;
+    flex-shrink: 0;
 
     .cont1,
     .cont2 {
@@ -80,9 +86,10 @@
     }
 
     button {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
+      height: 36px;
+      width: 36px;
+      min-width: 36px;
+      padding: 4px;
 
       mat-icon {
         color: #e8eaed;
@@ -92,7 +99,43 @@
 }
 
 @media (max-width: 768px) {
-  .toolbar .search-bar input {
-    font-size: 14px;
+  .toolbar {
+    .search-bar {
+      flex: 1;
+      input {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .toolbar {
+    .title {
+      margin-right: 1rem;
+      font-size: 18px;
+    }
+    .actions {
+      gap: 0.5rem;
+      padding-right: 4px;
+      justify-content: flex-end;
+    }
+
+    .cont1,
+    .cont2 {
+      gap: 0.25rem;
+    }
+
+    .search-bar input {
+      font-size: 14px;
+    }
+
+    .search-icon {
+      margin-right: 0;
+    }
+
+    .search-toggle {
+      margin-left: auto;
+    }
   }
 }
