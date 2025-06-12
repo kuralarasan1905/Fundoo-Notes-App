@@ -5,12 +5,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from 'src/app/search.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -34,7 +35,7 @@ export class ToolbarComponent implements OnInit {
   isLargeScreen = window.innerWidth >= 600;
   isGridView = this.isLargeScreen;
 
-  constructor(private searchService: SearchService) {}
+  constructor(private searchService: SearchService, private router: Router) {}
 
   onSearchInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -69,5 +70,12 @@ export class ToolbarComponent implements OnInit {
   toggleView() {
     this.isGridView = !this.isGridView;
     this.viewToggle.emit(this.isGridView);
+  }
+
+  onRefresh() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }

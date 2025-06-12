@@ -17,34 +17,59 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () =>
+      import('./pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'signup',
-    component: RegisterComponent,
+    loadComponent: () =>
+      import('./pages/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadComponent: () =>
+      import('./pages/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
     canActivate: [AuthGuardService],
     children: [
       { path: '', redirectTo: 'notes', pathMatch: 'full' },
-      { path: 'notes', component: NotesComponent },
+      {
+        path: 'notes',
+        loadComponent: () =>
+          import('./components/notes/notes.component').then(
+            (m) => m.NotesComponent
+          ),
+      },
       {
         path: 'reminders',
-        component: RemindersComponent,
+        loadComponent: () =>
+          import('./components/reminders/reminders.component').then(
+            (m) => m.RemindersComponent
+          ),
       },
       {
         path: 'edit-labels',
-        component: EditLabelsComponent,
+        loadComponent: () =>
+          import('./components/edit-labels/edit-labels.component').then(
+            (m) => m.EditLabelsComponent
+          ),
       },
       {
         path: 'archive',
-        component: ArchiveComponent,
+        loadComponent: () =>
+          import('./components/archive/archive.component').then(
+            (m) => m.ArchiveComponent
+          ),
       },
       {
         path: 'trash',
-        component: TrashComponent,
+        loadComponent: () =>
+          import('./components/trash/trash.component').then(
+            (m) => m.TrashComponent
+          ),
       },
     ],
   },

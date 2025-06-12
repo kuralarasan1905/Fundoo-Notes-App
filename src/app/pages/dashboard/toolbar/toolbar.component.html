@@ -44,9 +44,11 @@
     </button>
 
     <div class="cont1">
-      <button mat-icon-button><mat-icon>refresh</mat-icon></button>
+      <button mat-icon-button (click)="onRefresh()">
+        <mat-icon>refresh</mat-icon>
+      </button>
       <button mat-icon-button (click)="toggleView()" *ngIf="isLargeScreen">
-        <mat-icon>{{ isGridView ? "grid_view" : "view_agenda" }}</mat-icon>
+        <mat-icon>{{ isGridView ? "view_agenda" : "grid_view" }}</mat-icon>
       </button>
       <button mat-icon-button><mat-icon>settings</mat-icon></button>
     </div>
