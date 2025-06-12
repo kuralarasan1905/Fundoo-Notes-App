@@ -1,7 +1,23 @@
-<app-note-card
-  *ngFor="let note of noteList"
-  [note]="note"
-  [inTrash]="true"
-  (restoreNote)="onRestoreNote($event)"
-  (deletePermanently)="onDeleteForever($event)"
-></app-note-card>
+<div class="note-shared-wrapper">
+  <!-- LIST VIEW (Constrained width) -->
+  <div *ngIf="viewMode === 'list'" class="note-grid list">
+    <app-note-card
+      *ngFor="let note of noteList"
+      [note]="note"
+      [inTrash]="true"
+      (restoreNote)="onRestoreNote($event)"
+      (deletePermanently)="onDeleteForever($event)"
+    ></app-note-card>
+  </div>
+</div>
+
+<!-- GRID VIEW (Full width) -->
+<div *ngIf="viewMode === 'grid'" class="note-grid grid">
+  <app-note-card
+    *ngFor="let note of noteList"
+    [note]="note"
+    [inTrash]="true"
+    (restoreNote)="onRestoreNote($event)"
+    (deletePermanently)="onDeleteForever($event)"
+  ></app-note-card>
+</div>

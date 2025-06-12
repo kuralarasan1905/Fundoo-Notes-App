@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Note } from 'src/app/model/note';
 import { NoteService } from 'src/app/services/note_service/note.service';
 import { NoteCardComponent } from '../note-card/note-card.component';
+import { Subscription } from 'rxjs';
+import { ViewService } from 'src/app/services/view.service';
 
 @Component({
   selector: 'app-trash',
@@ -11,10 +13,15 @@ import { NoteCardComponent } from '../note-card/note-card.component';
   templateUrl: './trash.component.html',
   styleUrls: ['./trash.component.scss'],
 })
-export class TrashComponent implements OnInit {
+export class TrashComponent implements OnInit, OnDestroy {
   noteList: Note[] = [];
+  viewMode: 'grid' | 'list' = 'grid';
+  private viewSub!: Subscription;
 
-  constructor(private noteService: NoteService) {}
+  constructor(
+    private noteService: NoteService,
+    private viewService: ViewService
+  ) {}
 
   ngOnInit() {
     this.noteService.getTrashList().subscribe({
@@ -23,6 +30,13 @@ export class TrashComponent implements OnInit {
       },
       error: (err) => console.error('Failed to fetch trash notes:', err),
     });
+    this.viewSub = this.viewService.viewMode$.subscribe((mode) => {
+      this.viewMode = mode;
+    });
+  }
+
+  ngOnDestroy() {
+    this.viewSub?.unsubscribe();
   }
 
   onRestoreNote(noteId: string) {
