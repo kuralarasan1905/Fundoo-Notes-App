@@ -1,4 +1,18 @@
-<div class="note-grid">
+<div class="note-shared-wrapper">
+  <!-- LIST VIEW (Constrained width) -->
+  <div *ngIf="viewMode === 'list'" class="note-grid list">
+    <app-note-card
+      *ngFor="let note of archivedNotes"
+      [note]="note"
+      (editNote)="onEditNote($event)"
+      (deleteNote)="onDeleteNote($event)"
+      (archiveNote)="onArchiveNote($event)"
+    ></app-note-card>
+  </div>
+</div>
+
+<!-- GRID VIEW (Full width) -->
+<div *ngIf="viewMode === 'grid'" class="note-grid grid">
   <app-note-card
     *ngFor="let note of archivedNotes"
     [note]="note"

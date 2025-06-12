@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Note } from 'src/app/model/note';
 import { NoteService } from 'src/app/services/note_service/note.service';
 import { NoteCardComponent } from '../note-card/note-card.component';
+import { Subscription } from 'rxjs';
+import { ViewService } from 'src/app/services/view.service';
 
 @Component({
   selector: 'app-archive',
@@ -11,13 +13,25 @@ import { NoteCardComponent } from '../note-card/note-card.component';
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.scss'],
 })
-export class ArchiveComponent implements OnInit {
+export class ArchiveComponent implements OnInit, OnDestroy {
   archivedNotes: Note[] = [];
+  viewMode: 'grid' | 'list' = 'grid';
+  private viewSub!: Subscription;
 
-  constructor(private noteService: NoteService) {}
+  constructor(
+    private noteService: NoteService,
+    private viewService: ViewService
+  ) {}
 
   ngOnInit() {
     this.loadArchivedNotes();
+    this.viewSub = this.viewService.viewMode$.subscribe((mode) => {
+      this.viewMode = mode;
+    });
+  }
+
+  ngOnDestroy() {
+    this.viewSub?.unsubscribe();
   }
 
   onArchiveNote(payload: { id: string; isArchived: boolean }): void {
