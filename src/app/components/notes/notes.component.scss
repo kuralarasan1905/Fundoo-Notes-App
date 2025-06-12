@@ -26,7 +26,7 @@
   flex: 1;
   background: none;
   border: none;
-  color: #e8eaed;
+  color: white;
   font-size: 16px;
   outline: none;
 
@@ -39,7 +39,7 @@
   width: 100%;
   background: none;
   border: none;
-  color: #e8eaed;
+  color: white;
   font-size: 14px;
   outline: none;
   padding: 4px 16px;
@@ -105,10 +105,33 @@
   padding: 0 16px;
 }
 
+.collapsed-icons {
+  display: flex;
+  gap: 14px;
+  margin-left: auto;
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: #9aa0a6;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 4px;
+
+    &:hover {
+      background-color: #313235;
+      color: #e8eaed;
+    }
+
+    mat-icon {
+      font-size: 25px;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .note-form-container {
     margin: 16px auto;
-    padding: 0 12px;
   }
 
   .form-content {
@@ -138,10 +161,6 @@
 }
 
 @media (max-width: 480px) {
-  .note-form-container {
-    padding: 0 8px;
-  }
-
   .note-input,
   .note-textarea {
     font-size: 14px;

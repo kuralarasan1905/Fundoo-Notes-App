@@ -23,7 +23,18 @@ export class IconsComponent {
   @Output() restoreNote = new EventEmitter<void>();
 
   showPalette = false;
-  colors = ['#333333', '#1a237e', '#004d40', '#4a0000', '#2c3e50', '#2e3b2f'];
+  colors = [
+    '#77172e',
+    '#692b17',
+    '#7c4a03',
+    '#264d3b',
+    '#0c625d',
+    '#256377',
+    '#284255',
+    '#472e5b',
+    '#6c394f',
+    '#4b443a',
+  ];
 
   togglePalette() {
     this.showPalette = !this.showPalette;
