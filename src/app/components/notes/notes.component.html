@@ -1,45 +1,70 @@
-<form
-  [formGroup]="notes"
-  class="note-form"
-  [ngStyle]="{ 'background-color': selectedColor }"
->
-  <div class="form-content">
-    <input
-      formControlName="title"
-      placeholder="Take a note..."
-      class="note-input"
-      type="text"
-      (click)="expandForm()"
-      (focus)="expandForm()"
-    />
+<div class="note-shared-wrapper">
+  <div class="note-form-container" *ngIf="!searchText">
+    <form
+      [formGroup]="notes"
+      class="note-form"
+      [ngStyle]="{ 'background-color': selectedColor }"
+    >
+      <div class="form-content">
+        <input
+          formControlName="title"
+          [placeholder]="isExpanded ? 'Title' : 'Take a note...'"
+          class="note-input"
+          type="text"
+          (click)="expandForm()"
+          (focus)="expandForm()"
+        />
 
-    <!-- ✅ icons shown in collapsed state -->
-    <div class="collapsed-icons" *ngIf="!isExpanded">
-      <button mat-icon-button class="icon-btn">
-        <mat-icon>check_box</mat-icon>
-      </button>
-      <button mat-icon-button class="icon-btn">
-        <mat-icon>brush</mat-icon>
-      </button>
-      <button mat-icon-button class="icon-btn">
-        <mat-icon>image</mat-icon>
-      </button>
-    </div>
+        <div class="collapsed-icons" *ngIf="!isExpanded">
+          <button mat-icon-button class="icon-btn">
+            <mat-icon>check_box</mat-icon>
+          </button>
+          <button mat-icon-button class="icon-btn">
+            <mat-icon>brush</mat-icon>
+          </button>
+          <button mat-icon-button class="icon-btn">
+            <mat-icon>image</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <textarea
+        *ngIf="isExpanded"
+        formControlName="description"
+        placeholder="Take a note..."
+        class="note-textarea"
+        rows="3"
+      ></textarea>
+
+      <div *ngIf="isExpanded" class="form-footer">
+        <app-icons
+          [showAll]="true"
+          (colorSelect)="onColorSelected($event)"
+          (closeBtn)="onCloseNote($event)"
+        ></app-icons>
+      </div>
+    </form>
   </div>
 
-  <textarea
-    *ngIf="isExpanded"
-    formControlName="description"
-    placeholder="Take a note..."
-    class="note-textarea"
-    rows="3"
-  ></textarea>
-
-  <div *ngIf="isExpanded" class="form-footer">
-    <app-icons
-      [showAll]="true"
-      (colorSelect)="onColorSelected($event)"
-      (closeBtn)="onCloseNote($event)"
-    ></app-icons>
+  <!-- LIST VIEW (Constrained width) -->
+  <div *ngIf="viewMode === 'list'" class="note-grid list">
+    <app-note-card
+      *ngFor="let note of filteredNotes"
+      [note]="note"
+      (editNote)="onEditNote($event)"
+      (archiveNote)="onArchiveNote($event)"
+      (moveToTrash)="onTrashNote($event)"
+    ></app-note-card>
   </div>
-</form>
+</div>
+
+<!-- GRID VIEW (Full width) -->
+<div *ngIf="viewMode === 'grid'" class="note-grid grid">
+  <app-note-card
+    *ngFor="let note of filteredNotes"
+    [note]="note"
+    (editNote)="onEditNote($event)"
+    (archiveNote)="onArchiveNote($event)"
+    (moveToTrash)="onTrashNote($event)"
+  ></app-note-card>
+</div>
