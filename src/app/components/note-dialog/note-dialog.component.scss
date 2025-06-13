@@ -1,0 +1,50 @@
+.dialog-card {
+  background-color: #202124;
+  border: 1px solid #5f6368;
+  border-radius: 8px;
+  padding: 24px;
+  width: 91.75%;
+  max-width: 600px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #e8eaed;
+}
+
+.edit-title {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #e8eaed;
+  font-size: 18px;
+  font-weight: 500;
+  outline: none;
+
+  &::placeholder {
+    color: #9aa0a6;
+  }
+}
+
+.edit-description {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #e8eaed;
+  font-size: 16px;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #9aa0a6;
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #5f6368;
+  padding-top: 12px;
+}

@@ -51,7 +51,7 @@
     <app-note-card
       *ngFor="let note of filteredNotes"
       [note]="note"
-      (editNote)="onEditNote($event)"
+      (openDialog)="onEditNote(note)"
       (archiveNote)="onArchiveNote($event)"
       (moveToTrash)="onTrashNote($event)"
     ></app-note-card>
@@ -63,7 +63,7 @@
   <app-note-card
     *ngFor="let note of filteredNotes"
     [note]="note"
-    (editNote)="onEditNote($event)"
+    (openDialog)="onEditNote(note)"
     (archiveNote)="onArchiveNote($event)"
     (moveToTrash)="onTrashNote($event)"
   ></app-note-card>

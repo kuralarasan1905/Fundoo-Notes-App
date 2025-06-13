@@ -43,6 +43,6 @@ export class NoteService {
 
   updateNotes(payload: any) {
     const headers = this.http.getHeader();
-    return this.http.postApi(' /notes/updateNotes', payload, headers);
+    return this.http.postApi('/notes/updateNotes', payload, headers);
   }
 }

@@ -6,7 +6,7 @@
   (mouseenter)="hover = true"
   (mouseleave)="hover = false"
 >
-  <div *ngIf="!isEditing" class="note-content" (click)="onEdit()">
+  <div *ngIf="!isEditing" class="note-content" (click)="openDialog.emit()">
     <h3 *ngIf="note.title" class="note-title">{{ note.title }}</h3>
     <p class="note-description">{{ note.description }}</p>
   </div>

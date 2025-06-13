@@ -7,6 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { IconsComponent } from '../icons/icons.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
 
 @Component({
   selector: 'app-note-card',
@@ -19,6 +22,7 @@ import { IconsComponent } from '../icons/icons.component';
     MatIconModule,
     MatButtonModule,
     IconsComponent,
+    MatDialogModule,
   ],
   templateUrl: './note-card.component.html',
   styleUrls: ['./note-card.component.scss'],
@@ -32,6 +36,7 @@ export class NoteCardComponent {
     description: string;
     color: string;
   }>();
+  @Output() openDialog = new EventEmitter<void>();
   @Output() deleteNote = new EventEmitter<string>();
   @Output() moveToTrash = new EventEmitter<string>();
   @Output() restoreNote = new EventEmitter<string>();
@@ -66,10 +71,7 @@ export class NoteCardComponent {
   }
 
   onEdit(): void {
-    this.isEditing = true;
-    this.editTitle = this.note.title;
-    this.editDescription = this.note.description;
-    this.noteColor = this.note.color || '#202124';
+    this.openDialog.emit();
   }
 
   setColor(color: string) {

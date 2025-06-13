@@ -1,0 +1,24 @@
+<div class="dialog-card" [ngStyle]="{ 'background-color': noteColor }">
+  <input
+    [(ngModel)]="title"
+    placeholder="Title"
+    class="edit-title"
+    type="text"
+  />
+  <textarea
+    [(ngModel)]="description"
+    placeholder="Take a note..."
+    class="edit-description"
+    rows="4"
+  ></textarea>
+
+  <div class="dialog-footer">
+    <app-icons
+      [showAll]="true"
+      [isArchived]="note.isArchived ?? false"
+      [inTrash]="false"
+      (colorSelect)="setColor($event)"
+      (closeBtn)="onClose()"
+    ></app-icons>
+  </div>
+</div>

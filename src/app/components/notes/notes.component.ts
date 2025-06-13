@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 import { ViewService } from 'src/app/services/view.service';
 import { NoteService } from 'src/app/services/note_service/note.service';
 import { SearchService } from 'src/app/search.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
 
 @Component({
   selector: 'app-notes',
@@ -48,7 +50,8 @@ export class NotesComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private fb: FormBuilder,
     private noteService: NoteService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private dialog: MatDialog
   ) {
     this.notes = this.fb.group({
       title: [''],
@@ -123,21 +126,28 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.isExpanded = false;
   }
 
-  onEditNote(updated: {
-    noteId: string;
-    title: string;
-    description: string;
-    color: string;
-  }) {
-    const index = this.noteList.findIndex((n) => n.id === updated.noteId);
-    if (index > -1) {
-      this.noteList[index] = {
-        ...this.noteList[index],
-        title: updated.title,
-        description: updated.description,
-        color: updated.color,
-      };
-    }
+  onEditNote(note: Note) {
+    const dialogRef = this.dialog.open(NoteDialogComponent, {
+      data: note,
+      width: '600px',
+      panelClass: 'custom-dialog-container',
+    });
+
+    dialogRef.afterClosed().subscribe((updatedNote) => {
+      if (updatedNote) {
+        const index = this.noteList.findIndex(
+          (n) => n.id === updatedNote.noteId
+        );
+        if (index !== -1) {
+          this.noteList[index] = {
+            ...this.noteList[index],
+            title: updatedNote.title,
+            description: updatedNote.description,
+            color: updatedNote.color,
+          };
+        }
+      }
+    });
   }
 
   get filteredNotes(): Note[] {
