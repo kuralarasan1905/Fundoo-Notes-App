@@ -5,6 +5,8 @@ import { NoteService } from 'src/app/services/note_service/note.service';
 import { NoteCardComponent } from '../note-card/note-card.component';
 import { Subscription } from 'rxjs';
 import { ViewService } from 'src/app/services/view.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-trash',
@@ -20,7 +22,8 @@ export class TrashComponent implements OnInit, OnDestroy {
 
   constructor(
     private noteService: NoteService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -51,19 +54,23 @@ export class TrashComponent implements OnInit, OnDestroy {
   }
 
   onDeleteForever(noteId: string) {
-    const confirmed = confirm(
-      'Are you sure you want to permanently delete this note?'
-    );
-    if (!confirmed) return;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '330px',
+      panelClass: 'custom-confirm-dialog',
+    });
 
-    this.noteService
-      .deleteForeverNotes({ noteIdList: [noteId], isDeleted: true })
-      .subscribe({
-        next: () => {
-          this.noteList = this.noteList.filter((n) => n.id !== noteId);
-        },
-        error: (err) => console.error('Failed to delete forever:', err),
-      });
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+
+      this.noteService
+        .deleteForeverNotes({ noteIdList: [noteId], isDeleted: true })
+        .subscribe({
+          next: () => {
+            this.noteList = this.noteList.filter((n) => n.id !== noteId);
+          },
+          error: (err) => console.error('Failed to delete forever:', err),
+        });
+    });
   }
 
   onDeleteNote(noteId: string) {}

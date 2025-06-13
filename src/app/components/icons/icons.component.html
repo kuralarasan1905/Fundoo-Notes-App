@@ -4,18 +4,18 @@
     <ng-container *ngIf="inTrash; else normalIcons">
       <button
         class="icon-btn"
-        (click)="restoreNote.emit()"
-        matTooltip="Restore"
-      >
-        <mat-icon class="icon">restore_from_trash</mat-icon>
-      </button>
-
-      <button
-        class="icon-btn"
         (click)="deletePermanently.emit()"
         matTooltip="Delete forever"
       >
         <mat-icon class="icon">delete_forever</mat-icon>
+      </button>
+
+      <button
+        class="icon-btn"
+        (click)="restoreNote.emit()"
+        matTooltip="Restore"
+      >
+        <mat-icon class="icon">restore_from_trash</mat-icon>
       </button>
     </ng-container>
 
