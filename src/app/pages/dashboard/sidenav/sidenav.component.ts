@@ -13,13 +13,7 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-    RouterModule,
-  ],
+  imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule],
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
 })
