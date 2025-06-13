@@ -22,6 +22,23 @@
     width: 100%;
   }
 }
+
+.empty-archive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  color: #9aa0a6;
+  font-family: "Roboto", sans-serif;
+}
+
+.empty-archive-text {
+  font-size: 20px;
+  font-weight: 400;
+  color: #9aa0a6;
+}
+
 @media (max-width: 768px) {
   .note-shared-wrapper {
     padding: 0 12px;

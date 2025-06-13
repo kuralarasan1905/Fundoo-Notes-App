@@ -5,11 +5,12 @@ import { NoteService } from 'src/app/services/note_service/note.service';
 import { NoteCardComponent } from '../note-card/note-card.component';
 import { Subscription } from 'rxjs';
 import { ViewService } from 'src/app/services/view.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-archive',
   standalone: true,
-  imports: [CommonModule, NoteCardComponent],
+  imports: [CommonModule, NoteCardComponent, MatIconModule],
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.scss'],
 })
