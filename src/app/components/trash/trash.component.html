@@ -1,5 +1,15 @@
-<div class="note-shared-wrapper">
-  <!-- LIST VIEW (Constrained width) -->
+<div class="trash-header">
+  <span><i>Notes in Trash are deleted after 7 days.</i></span>
+  <button (click)="emptyRecycleBin()">Empty trash</button>
+</div>
+
+<div class="empty-trash" *ngIf="noteList.length === 0">
+  <img src="assets/trash.png" alt="trash" />
+  <p class="empty-text">No notes in Trash</p>
+</div>
+
+<div class="note-shared-wrapper" *ngIf="noteList.length > 0">
+  <!-- LIST VIEW -->
   <div *ngIf="viewMode === 'list'" class="note-grid list">
     <app-note-card
       *ngFor="let note of noteList"
@@ -11,8 +21,8 @@
   </div>
 </div>
 
-<!-- GRID VIEW (Full width) -->
-<div *ngIf="viewMode === 'grid'" class="note-grid grid">
+<!-- GRID VIEW -->
+<div *ngIf="viewMode === 'grid' && noteList.length > 0" class="note-grid grid">
   <app-note-card
     *ngFor="let note of noteList"
     [note]="note"

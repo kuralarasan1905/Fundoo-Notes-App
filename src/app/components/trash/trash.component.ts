@@ -7,11 +7,12 @@ import { Subscription } from 'rxjs';
 import { ViewService } from 'src/app/services/view.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-trash',
   standalone: true,
-  imports: [CommonModule, NoteCardComponent],
+  imports: [CommonModule, NoteCardComponent, MatIconModule],
   templateUrl: './trash.component.html',
   styleUrls: ['./trash.component.scss'],
 })
@@ -73,5 +74,27 @@ export class TrashComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDeleteNote(noteId: string) {}
+  emptyRecycleBin() {
+    console.log('Empty trash clicked');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '330px',
+      panelClass: 'custom-confirm-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+
+      const noteIdList = this.noteList.map((n) => n.id);
+      if (noteIdList.length === 0) return;
+
+      this.noteService
+        .deleteForeverNotes({ noteIdList, isDeleted: true })
+        .subscribe({
+          next: () => {
+            this.noteList = [];
+          },
+          error: (err) => console.error('Failed to empty trash:', err),
+        });
+    });
+  }
 }
