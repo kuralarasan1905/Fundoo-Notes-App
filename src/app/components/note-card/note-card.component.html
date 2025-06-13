@@ -9,6 +9,7 @@
   <button
     mat-icon-button
     class="pin-btn"
+    *ngIf="hover"
     (click)="togglePin.emit({ id: note.id, isPined: !note.isPined })"
     matTooltip="{{ note.isPined ? 'Unpin note' : 'Pin note' }}"
   >
