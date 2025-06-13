@@ -119,6 +119,7 @@ export class NotesComponent implements OnInit, OnDestroy {
             title: addedNote.title,
             description: addedNote.description,
             color: addedNote.color,
+            isPined: addedNote.isPined ?? this.isPinned,
           });
         },
         error: (err) => {
@@ -130,6 +131,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.notes.reset();
     this.selectedColor = '#202124';
     this.isExpanded = false;
+    this.isPinned = false;
   }
 
   onEditNote(note: Note) {

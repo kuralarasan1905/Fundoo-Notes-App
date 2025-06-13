@@ -15,19 +15,6 @@
           (focus)="expandForm()"
         />
 
-        <button
-          *ngIf="isExpanded"
-          mat-icon-button
-          class="pin-btn"
-          (click)="togglePin()"
-          [matTooltip]="isPinned ? 'Unpin' : 'Pin'"
-          type="button"
-        >
-          <mat-icon class="pin-icon">{{
-            isPinned ? "push_pin" : "push_pin"
-          }}</mat-icon>
-        </button>
-
         <div class="collapsed-icons" *ngIf="!isExpanded">
           <button mat-icon-button class="icon-btn">
             <mat-icon>check_box</mat-icon>
@@ -40,6 +27,19 @@
           </button>
         </div>
       </div>
+
+      <button
+        *ngIf="isExpanded"
+        mat-icon-button
+        class="pin-btn"
+        (click)="togglePin()"
+        [matTooltip]="isPinned ? 'Unpin' : 'Pin'"
+        type="button"
+      >
+        <mat-icon class="pin-icon">{{
+          isPinned ? "push_pin" : "push_pin"
+        }}</mat-icon>
+      </button>
 
       <textarea
         *ngIf="isExpanded"

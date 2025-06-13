@@ -4,6 +4,7 @@
 }
 
 .note-form {
+  position: relative;
   background-color: #202124;
   border: 1px solid #5f6368;
   border-radius: 8px;
@@ -141,13 +142,21 @@
 }
 
 .pin-btn {
-  margin-left: auto;
+  position: absolute;
+  top: 8px;
+  right: 8px;
   color: #9aa0a6;
+  background: none;
+  border: none;
 
   &:hover {
     color: #e8eaed;
     background: #313235;
     border-radius: 50%;
+  }
+
+  mat-icon {
+    font-size: 22px;
   }
 }
 
