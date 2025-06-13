@@ -26,6 +26,19 @@
   }
 }
 
+.pin-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  color: #9aa0a6;
+
+  &:hover {
+    color: #e8eaed;
+    background: #313235;
+    border-radius: 50%;
+  }
+}
+
 .note-content {
   min-height: 60px;
 }

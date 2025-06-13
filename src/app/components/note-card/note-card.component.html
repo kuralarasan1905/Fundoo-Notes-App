@@ -6,6 +6,17 @@
   (mouseenter)="hover = true"
   (mouseleave)="hover = false"
 >
+  <button
+    mat-icon-button
+    class="pin-btn"
+    (click)="togglePin.emit({ id: note.id, isPined: !note.isPined })"
+    matTooltip="{{ note.isPined ? 'Unpin note' : 'Pin note' }}"
+  >
+    <mat-icon class="pin-icon">{{
+      note.isPined ? "push_pin" : "push_pin"
+    }}</mat-icon>
+  </button>
+
   <div *ngIf="!isEditing" class="note-content" (click)="openDialog.emit()">
     <h3 *ngIf="note.title" class="note-title">{{ note.title }}</h3>
     <p class="note-description">{{ note.description }}</p>

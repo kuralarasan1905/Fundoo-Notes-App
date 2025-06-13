@@ -13,6 +13,7 @@ import { NoteService } from 'src/app/services/note_service/note.service';
 import { SearchService } from 'src/app/search.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-notes',
@@ -25,6 +26,7 @@ import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
     MatIconModule,
     IconsComponent,
     NoteCardComponent,
+    MatTooltipModule,
   ],
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss'],
@@ -33,7 +35,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   notes: FormGroup;
   isExpanded = false;
   noteList: Note[] = [];
-
+  isPinned: boolean = false;
   selectedColor = '#202124';
 
   viewMode: 'grid' | 'list' = 'grid';
@@ -89,6 +91,10 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.isExpanded = true;
   }
 
+  togglePin() {
+    this.isPinned = !this.isPinned;
+  }
+
   onCloseNote(shouldSave: boolean) {
     const formValue = this.notes.value;
 
@@ -99,7 +105,7 @@ export class NotesComponent implements OnInit, OnDestroy {
       const payload = {
         title: formValue.title.trim(),
         description: formValue.description.trim(),
-        isPined: false,
+        isPined: this.isPinned,
         isArchived: false,
         color: this.selectedColor,
       };
@@ -144,6 +150,7 @@ export class NotesComponent implements OnInit, OnDestroy {
             title: updatedNote.title,
             description: updatedNote.description,
             color: updatedNote.color,
+            isPined: updatedNote.isPined ?? this.noteList[index].isPined,
           };
         }
       }
@@ -182,5 +189,26 @@ export class NotesComponent implements OnInit, OnDestroy {
         },
         error: (err) => console.error('Failed to move note to trash:', err),
       });
+  }
+
+  onTogglePin(payload: { id: string; isPined: boolean }) {
+    this.noteService
+      .pinUnpinNotes({ noteIdList: [payload.id], isPined: payload.isPined })
+      .subscribe({
+        next: () => {
+          const index = this.noteList.findIndex((n) => n.id === payload.id);
+          if (index !== -1) {
+            this.noteList[index].isPined = payload.isPined;
+          }
+        },
+        error: (err) => console.error('Pin/unpin failed:', err),
+      });
+  }
+
+  get pinnedNotes(): Note[] {
+    return this.filteredNotes.filter((n) => n.isPined);
+  }
+  get otherNotes(): Note[] {
+    return this.filteredNotes.filter((n) => !n.isPined);
   }
 }

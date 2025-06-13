@@ -15,6 +15,19 @@
           (focus)="expandForm()"
         />
 
+        <button
+          *ngIf="isExpanded"
+          mat-icon-button
+          class="pin-btn"
+          (click)="togglePin()"
+          [matTooltip]="isPinned ? 'Unpin' : 'Pin'"
+          type="button"
+        >
+          <mat-icon class="pin-icon">{{
+            isPinned ? "push_pin" : "push_pin"
+          }}</mat-icon>
+        </button>
+
         <div class="collapsed-icons" *ngIf="!isExpanded">
           <button mat-icon-button class="icon-btn">
             <mat-icon>check_box</mat-icon>
@@ -46,25 +59,54 @@
     </form>
   </div>
 
-  <!-- LIST VIEW (Constrained width) -->
-  <div *ngIf="viewMode === 'list'" class="note-grid list">
-    <app-note-card
-      *ngFor="let note of filteredNotes"
-      [note]="note"
-      (openDialog)="onEditNote(note)"
-      (archiveNote)="onArchiveNote($event)"
-      (moveToTrash)="onTrashNote($event)"
-    ></app-note-card>
-  </div>
-</div>
+  <!-- PINNED + OTHERS conditional rendering -->
+  <ng-container *ngIf="pinnedNotes.length > 0; else allNotes">
+    <!-- PINNED -->
+    <div class="note-section">
+      <h4 class="section-heading">PINNED</h4>
+      <div
+        [ngClass]="viewMode === 'grid' ? 'note-grid grid' : 'note-grid list'"
+      >
+        <app-note-card
+          *ngFor="let note of pinnedNotes"
+          [note]="note"
+          (openDialog)="onEditNote(note)"
+          (archiveNote)="onArchiveNote($event)"
+          (moveToTrash)="onTrashNote($event)"
+          (togglePin)="onTogglePin($event)"
+        ></app-note-card>
+      </div>
+    </div>
 
-<!-- GRID VIEW (Full width) -->
-<div *ngIf="viewMode === 'grid'" class="note-grid grid">
-  <app-note-card
-    *ngFor="let note of filteredNotes"
-    [note]="note"
-    (openDialog)="onEditNote(note)"
-    (archiveNote)="onArchiveNote($event)"
-    (moveToTrash)="onTrashNote($event)"
-  ></app-note-card>
+    <!-- OTHERS -->
+    <div *ngIf="otherNotes.length > 0" class="note-section">
+      <h4 class="section-heading">OTHERS</h4>
+      <div
+        [ngClass]="viewMode === 'grid' ? 'note-grid grid' : 'note-grid list'"
+      >
+        <app-note-card
+          *ngFor="let note of otherNotes"
+          [note]="note"
+          (openDialog)="onEditNote(note)"
+          (archiveNote)="onArchiveNote($event)"
+          (moveToTrash)="onTrashNote($event)"
+          (togglePin)="onTogglePin($event)"
+        ></app-note-card>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ELSE: Show all notes together when no pinned notes -->
+  <ng-template #allNotes>
+    <div [ngClass]="viewMode === 'grid' ? 'note-grid grid' : 'note-grid list'">
+      <app-note-card
+        *ngFor="let note of filteredNotes"
+        [note]="note"
+        (openDialog)="onEditNote(note)"
+        (archiveNote)="onArchiveNote($event)"
+        (moveToTrash)="onTrashNote($event)"
+        (togglePin)="onTogglePin($event)"
+      ></app-note-card>
+    </div>
+  </ng-template>
 </div>

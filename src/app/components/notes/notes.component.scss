@@ -129,6 +129,28 @@
   }
 }
 
+.section-heading {
+  color: #9aa0a6;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 24px 0 8px 8px;
+}
+
+.note-section {
+  margin-bottom: 32px;
+}
+
+.pin-btn {
+  margin-left: auto;
+  color: #9aa0a6;
+
+  &:hover {
+    color: #e8eaed;
+    background: #313235;
+    border-radius: 50%;
+  }
+}
+
 @media (max-width: 768px) {
   .note-form-container {
     margin: 16px auto;

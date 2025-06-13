@@ -9,10 +9,4 @@ export interface Note {
   createdDate?: string;
   modifiedDate?: string;
   color?: string;
-  label?: any[];
-  imageUrl?: string;
-  linkUrl?: string;
-  userId?: string;
-  noteCheckLists?: any[];
-  noteLabels?: any[];
 }

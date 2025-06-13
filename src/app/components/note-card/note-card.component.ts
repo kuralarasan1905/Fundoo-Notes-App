@@ -7,9 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { IconsComponent } from '../icons/icons.component';
-import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-note-card',
@@ -23,6 +22,7 @@ import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
     MatButtonModule,
     IconsComponent,
     MatDialogModule,
+    MatTooltipModule,
   ],
   templateUrl: './note-card.component.html',
   styleUrls: ['./note-card.component.scss'],
@@ -45,6 +45,7 @@ export class NoteCardComponent {
     id: string;
     isArchived: boolean;
   }>();
+  @Output() togglePin = new EventEmitter<{ id: string; isPined: boolean }>();
 
   isEditing = false;
   editTitle = '';
