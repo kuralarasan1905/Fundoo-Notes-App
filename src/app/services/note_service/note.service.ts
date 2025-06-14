@@ -68,6 +68,6 @@ export class NoteService {
 
   removeReminder(payload: any) {
     const headers = this.http.getHeader();
-    return this.http.postApi(' /notes/removeReminderNotes', payload, headers);
+    return this.http.postApi('/notes/removeReminderNotes', payload, headers);
   }
 }
