@@ -59,71 +59,74 @@
     </form>
   </div>
 
-  <!-- PINNED -->
-  <div class="note-section">
-    <ng-container [ngSwitch]="viewMode">
-      <div *ngSwitchCase="'list'" class="note-list-wrapper">
-        <h4 class="section-heading">PINNED</h4>
-        <div class="note-grid list">
-          <app-note-card
-            *ngFor="let note of pinnedNotes"
-            [note]="note"
-            (openDialog)="onEditNote(note)"
-            (archiveNote)="onArchiveNote($event)"
-            (moveToTrash)="onTrashNote($event)"
-            (togglePin)="onTogglePin($event)"
-          ></app-note-card>
+  <!-- CONDITIONAL DISPLAY -->
+  <ng-container *ngIf="pinnedNotes.length > 0; else allNotes">
+    <!-- PINNED SECTION -->
+    <div class="note-section">
+      <ng-container [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'list'" class="note-list-wrapper">
+          <h4 class="section-heading">PINNED</h4>
+          <div class="note-grid list">
+            <app-note-card
+              *ngFor="let note of pinnedNotes"
+              [note]="note"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+            ></app-note-card>
+          </div>
         </div>
-      </div>
-      <div *ngSwitchCase="'grid'">
-        <h4 class="section-heading">PINNED</h4>
-        <div class="note-grid grid">
-          <app-note-card
-            *ngFor="let note of pinnedNotes"
-            [note]="note"
-            (openDialog)="onEditNote(note)"
-            (archiveNote)="onArchiveNote($event)"
-            (moveToTrash)="onTrashNote($event)"
-            (togglePin)="onTogglePin($event)"
-          ></app-note-card>
+        <div *ngSwitchCase="'grid'">
+          <h4 class="section-heading">PINNED</h4>
+          <div class="note-grid grid">
+            <app-note-card
+              *ngFor="let note of pinnedNotes"
+              [note]="note"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+            ></app-note-card>
+          </div>
         </div>
-      </div>
-    </ng-container>
-  </div>
+      </ng-container>
+    </div>
 
-  <!-- OTHERS -->
-  <div *ngIf="otherNotes.length > 0" class="note-section">
-    <ng-container [ngSwitch]="viewMode">
-      <div *ngSwitchCase="'list'" class="note-list-wrapper">
-        <h4 class="section-heading">OTHERS</h4>
-        <div class="note-grid list">
-          <app-note-card
-            *ngFor="let note of otherNotes"
-            [note]="note"
-            (openDialog)="onEditNote(note)"
-            (archiveNote)="onArchiveNote($event)"
-            (moveToTrash)="onTrashNote($event)"
-            (togglePin)="onTogglePin($event)"
-          ></app-note-card>
+    <!-- OTHERS SECTION -->
+    <div *ngIf="otherNotes.length > 0" class="note-section">
+      <ng-container [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'list'" class="note-list-wrapper">
+          <h4 class="section-heading">OTHERS</h4>
+          <div class="note-grid list">
+            <app-note-card
+              *ngFor="let note of otherNotes"
+              [note]="note"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+            ></app-note-card>
+          </div>
         </div>
-      </div>
-      <div *ngSwitchCase="'grid'">
-        <h4 class="section-heading">OTHERS</h4>
-        <div class="note-grid grid">
-          <app-note-card
-            *ngFor="let note of otherNotes"
-            [note]="note"
-            (openDialog)="onEditNote(note)"
-            (archiveNote)="onArchiveNote($event)"
-            (moveToTrash)="onTrashNote($event)"
-            (togglePin)="onTogglePin($event)"
-          ></app-note-card>
+        <div *ngSwitchCase="'grid'">
+          <h4 class="section-heading">OTHERS</h4>
+          <div class="note-grid grid">
+            <app-note-card
+              *ngFor="let note of otherNotes"
+              [note]="note"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+            ></app-note-card>
+          </div>
         </div>
-      </div>
-    </ng-container>
-  </div>
+      </ng-container>
+    </div>
+  </ng-container>
 
-  <!-- Show all notes together when no pinned notes -->
+  <!-- DEFAULT: All notes with no heading -->
   <ng-template #allNotes>
     <ng-container [ngSwitch]="viewMode">
       <div *ngSwitchCase="'list'" class="note-list-wrapper">
