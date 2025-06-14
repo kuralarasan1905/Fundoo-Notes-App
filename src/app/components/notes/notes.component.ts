@@ -36,7 +36,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   isExpanded = false;
   noteList: Note[] = [];
   isPinned: boolean = false;
-  selectedColor = '#202124';
+  selectedColor = 'var(--bg-color)';
 
   viewMode: 'grid' | 'list' = 'grid';
   private viewSub!: Subscription;
@@ -44,8 +44,8 @@ export class NotesComponent implements OnInit, OnDestroy {
   private searchSub!: Subscription;
   searchText = '';
 
-  onColorSelected(color: string) {
-    this.selectedColor = color;
+  onColorSelected(event: { color: string; index: number }) {
+    this.selectedColor = event.color;
   }
 
   constructor(
@@ -129,7 +129,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
 
     this.notes.reset();
-    this.selectedColor = '#202124';
+    this.selectedColor = 'var(--bg-color)';
     this.isExpanded = false;
     this.isPinned = false;
   }

@@ -36,6 +36,7 @@ export class ToolbarComponent implements OnInit {
   isSearchOpen = false;
   isLargeScreen = window.innerWidth >= 600;
   isGridView = this.isLargeScreen;
+  isDarkTheme = true;
 
   constructor(private searchService: SearchService, private router: Router) {}
 
@@ -47,6 +48,26 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.updateScreenSize();
     this.viewToggle.emit(this.isGridView);
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isDarkTheme = true;
+      document.body.classList.add('dark-theme');
+    } else {
+      this.isDarkTheme = false;
+      document.body.classList.remove('dark-theme');
+    }
+  }
+
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+
+    if (this.isDarkTheme) {
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   @HostListener('window:resize')

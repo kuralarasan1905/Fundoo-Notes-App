@@ -1,6 +1,6 @@
 .toolbar {
-  background-color: #202124;
-  color: white;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   height: 64px;
   padding: 0 12px;
   display: flex;
@@ -36,7 +36,7 @@
   .search-bar {
     display: flex;
     align-items: center;
-    background-color: #3c4043;
+    background-color: var(--search);
     height: 48px;
     border-radius: 8px;
     padding: 0 12px;
@@ -45,14 +45,14 @@
 
     .search-icon {
       margin-right: 8px;
-      color: #e8eaed;
+      color: var(--icon-color);
     }
 
     input {
       background: transparent;
       border: none;
       outline: none;
-      color: white;
+      color: var(--text-color);
       width: 100%;
       font-size: 16px;
     }
@@ -72,7 +72,6 @@
   .actions {
     display: flex;
     align-items: center;
-    // flex-wrap: wrap;
     margin-left: auto;
     gap: 1.5rem;
     min-width: 0;
@@ -92,7 +91,7 @@
       padding: 4px;
 
       mat-icon {
-        color: #e8eaed;
+        color: var(--icon-color);
       }
     }
   }

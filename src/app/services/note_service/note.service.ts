@@ -50,4 +50,9 @@ export class NoteService {
     const headers = this.http.getHeader();
     return this.http.postApi('/notes/pinUnpinNotes', payload, headers);
   }
+
+  changeColor(payload: any) {
+    const headers = this.http.getHeader();
+    return this.http.postApi('/notes/changesColorNotes', payload, headers);
+  }
 }

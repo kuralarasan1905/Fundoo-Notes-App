@@ -17,7 +17,7 @@
 .main-content {
   flex: 1;
   padding: 24px;
-  background-color: #202124;
-  color: white;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   transition: margin-left 0.3s ease;
 }

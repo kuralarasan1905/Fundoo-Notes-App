@@ -2,12 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  Router,
-  RouterLink,
-  RouterModule,
-  NavigationEnd,
-} from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -23,11 +18,11 @@ export class SidenavComponent implements OnInit {
   hoverLabel: string = '';
 
   navItems = [
-    { icon: 'lightbulb', label: 'Notes', route: 'notes' },
+    { icon: 'lightbulb_outline', label: 'Notes', route: 'notes' },
     { icon: 'notifications', label: 'Reminders', route: 'reminders' },
     { icon: 'edit', label: 'Edit labels', route: 'edit-labels' },
     { icon: 'archive', label: 'Archive', route: 'archive' },
-    { icon: 'delete', label: 'Trash', route: 'trash' },
+    { icon: 'delete_outline', label: 'Trash', route: 'trash' },
   ];
 
   constructor(private router: Router) {}

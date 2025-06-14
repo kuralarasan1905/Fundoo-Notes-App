@@ -1,5 +1,8 @@
 <div class="empty-archive" *ngIf="archivedNotes.length === 0">
-  <img src="assets/archive.png" alt="archive" />
+  <img
+    [src]="isDarkMode ? 'assets/archiveD.png' : 'assets/archiveL.png'"
+    alt="archive"
+  />
   <p class="empty-archive-text">Your archived notes appear here</p>
 </div>
 

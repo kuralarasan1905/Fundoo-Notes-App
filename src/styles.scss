@@ -8,3 +8,29 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #202124;
+  --card-bg: #f1f3f4;
+  --border-color: #dadce0;
+  --icon-color: #585a5c;
+  --search: #f1f3f4;
+  --s-hover: #f1f3f4;
+  --active: #feefc3;
+  --place: #7f8598;
+  --disable: #5f6368;
+}
+
+.dark-theme {
+  --bg-color: #202124;
+  --text-color: #e8eaed;
+  --card-bg: #2c2c2c;
+  --border-color: #5f6368;
+  --icon-color: #ffffff;
+  --search: #3c4043;
+  --s-hover: #45484a;
+  --active: #41331c;
+  --place: #9aa0a6;
+  --disable: #5f6368;
+}

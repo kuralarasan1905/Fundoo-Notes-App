@@ -57,7 +57,19 @@ export class NoteDialogComponent {
     });
   }
 
-  setColor(color: string) {
-    this.noteColor = color;
+  setColor(event: { color: string; index: number }) {
+    this.noteColor = event.color;
+
+    const payload = {
+      noteIdList: [this.note.id],
+      color: event.color,
+    };
+
+    this.noteService.changeColor(payload).subscribe({
+      next: () => {
+        this.note.color = event.color;
+      },
+      error: (err) => console.error('Failed to change color in dialog', err),
+    });
   }
 }

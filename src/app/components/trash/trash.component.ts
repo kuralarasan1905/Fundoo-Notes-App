@@ -20,6 +20,7 @@ export class TrashComponent implements OnInit, OnDestroy {
   noteList: Note[] = [];
   viewMode: 'grid' | 'list' = 'grid';
   private viewSub!: Subscription;
+  isDarkMode: boolean = false;
 
   constructor(
     private noteService: NoteService,
@@ -37,6 +38,17 @@ export class TrashComponent implements OnInit, OnDestroy {
     this.viewSub = this.viewService.viewMode$.subscribe((mode) => {
       this.viewMode = mode;
     });
+    this.detectTheme();
+
+    const observer = new MutationObserver(() => this.detectTheme());
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  }
+
+  private detectTheme() {
+    this.isDarkMode = document.body.classList.contains('dark-theme');
   }
 
   ngOnDestroy() {

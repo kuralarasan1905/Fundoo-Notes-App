@@ -8,7 +8,7 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <img src="assets/keep.png" class="logo" *ngIf="!isSearchOpen" />
+  <img src="assets/keep.png" alt="Logo" class="logo" *ngIf="!isSearchOpen" />
   <span class="title" *ngIf="!isSearchOpen">Keep</span>
 
   <div
@@ -63,7 +63,9 @@
 </mat-toolbar>
 
 <mat-menu #settingsMenu="matMenu">
-  <button mat-menu-item>Disable dark theme</button>
+  <button mat-menu-item (click)="toggleTheme()">
+    {{ isDarkTheme ? "Enable light theme" : "Enable dark theme" }}
+  </button>
   <button mat-menu-item>Send feedback</button>
   <button mat-menu-item>Help</button>
   <button mat-menu-item>App downloads</button>

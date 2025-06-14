@@ -4,7 +4,10 @@
 </div>
 
 <div class="empty-trash" *ngIf="noteList.length === 0">
-  <img src="assets/trash.png" alt="trash" />
+  <img
+    [src]="isDarkMode ? 'assets/trashD.png' : 'assets/trashL.png'"
+    alt="archive"
+  />
   <p class="empty-text">No notes in Trash</p>
 </div>
 

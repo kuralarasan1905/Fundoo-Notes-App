@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { IconsComponent } from '../icons/icons.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NoteService } from 'src/app/services/note_service/note.service';
 
 @Component({
   selector: 'app-note-card',
@@ -53,6 +54,8 @@ export class NoteCardComponent {
   noteColor: string = '#202124';
   hover: boolean = false;
 
+  constructor(private noteService: NoteService) {}
+
   toggleArchiveStatus(isArchived: boolean) {
     this.archiveNote.emit({ id: this.note.id, isArchived });
   }
@@ -75,8 +78,20 @@ export class NoteCardComponent {
     this.openDialog.emit();
   }
 
-  setColor(color: string) {
-    this.noteColor = color;
+  setColor(event: { color: string; index: number }) {
+    this.noteColor = event.color;
+
+    const payload = {
+      noteIdList: [this.note.id],
+      color: event.color,
+    };
+
+    this.noteService.changeColor(payload).subscribe({
+      next: () => {
+        this.note.color = event.color;
+      },
+      error: (err) => console.error('Failed to change color in card', err),
+    });
   }
 
   onSave(): void {
