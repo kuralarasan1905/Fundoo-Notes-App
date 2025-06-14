@@ -11,8 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from 'src/app/search.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-toolbar',
@@ -37,8 +38,13 @@ export class ToolbarComponent implements OnInit {
   isLargeScreen = window.innerWidth >= 600;
   isGridView = this.isLargeScreen;
   isDarkTheme = true;
+  title: string = 'Keep';
 
-  constructor(private searchService: SearchService, private router: Router) {}
+  constructor(
+    private searchService: SearchService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   onSearchInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -47,7 +53,9 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateScreenSize();
+
     this.viewToggle.emit(this.isGridView);
+
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       this.isDarkTheme = true;
@@ -56,6 +64,35 @@ export class ToolbarComponent implements OnInit {
       this.isDarkTheme = false;
       document.body.classList.remove('dark-theme');
     }
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        let currentRoute = this.route.root;
+
+        while (currentRoute.firstChild) {
+          currentRoute = currentRoute.firstChild;
+        }
+
+        const currentPath = currentRoute.snapshot.routeConfig?.path;
+
+        switch (currentPath) {
+          case 'reminders':
+            this.title = 'Reminders';
+            break;
+          case 'edit-labels':
+            this.title = 'Edit Labels';
+            break;
+          case 'archive':
+            this.title = 'Archive';
+            break;
+          case 'trash':
+            this.title = 'Trash';
+            break;
+          default:
+            this.title = 'Keep';
+        }
+      });
   }
 
   toggleTheme() {
