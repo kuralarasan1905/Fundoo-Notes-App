@@ -50,7 +50,9 @@
       <button mat-icon-button (click)="toggleView()" *ngIf="isLargeScreen">
         <mat-icon>{{ isGridView ? "view_agenda" : "grid_view" }}</mat-icon>
       </button>
-      <button mat-icon-button><mat-icon>settings</mat-icon></button>
+      <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
+        <mat-icon>settings</mat-icon>
+      </button>
     </div>
 
     <div class="cont2">
@@ -59,3 +61,11 @@
     </div>
   </div>
 </mat-toolbar>
+
+<mat-menu #settingsMenu="matMenu">
+  <button mat-menu-item>Disable dark theme</button>
+  <button mat-menu-item>Send feedback</button>
+  <button mat-menu-item>Help</button>
+  <button mat-menu-item>App downloads</button>
+  <button mat-menu-item>Keyboard shortcuts</button>
+</mat-menu>

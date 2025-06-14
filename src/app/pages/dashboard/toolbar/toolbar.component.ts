@@ -5,13 +5,14 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from 'src/app/search.service';
 import { Router } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-toolbar',
@@ -22,6 +23,7 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     FormsModule,
+    MatMenuModule,
   ],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
