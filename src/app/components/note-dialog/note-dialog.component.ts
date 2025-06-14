@@ -72,4 +72,25 @@ export class NoteDialogComponent {
       error: (err) => console.error('Failed to change color in dialog', err),
     });
   }
+
+  addReminder(date: string) {
+    this.noteService
+      .addUpdateReminder({
+        noteIdList: [this.note.id],
+        reminder: date,
+      })
+      .subscribe(() => {
+        this.note.reminder = date;
+      });
+  }
+
+  removeReminder() {
+    this.noteService
+      .removeReminder({
+        noteIdList: [this.note.id],
+      })
+      .subscribe(() => {
+        this.note.reminder = undefined;
+      });
+  }
 }

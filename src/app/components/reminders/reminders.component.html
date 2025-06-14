@@ -1,1 +1,27 @@
-<p>reminders works!</p>
+<div class="empty-reminder" *ngIf="reminderNotes.length === 0">
+  <img
+    [src]="isDarkMode ? 'assets/remD.png' : 'assets/remL.png'"
+    alt="reminders"
+  />
+  <p class="empty-reminder-text">Notes with upcoming reminders appear here</p>
+</div>
+
+<div class="note-shared-wrapper">
+  <div *ngIf="viewMode === 'list'" class="note-grid list">
+    <app-note-card
+      *ngFor="let note of reminderNotes"
+      [note]="note"
+      (editNote)="onEditNote($event)"
+      (deleteNote)="onDeleteNote($event)"
+    ></app-note-card>
+  </div>
+</div>
+
+<div *ngIf="viewMode === 'grid'" class="note-grid grid">
+  <app-note-card
+    *ngFor="let note of reminderNotes"
+    [note]="note"
+    (editNote)="onEditNote($event)"
+    (deleteNote)="onDeleteNote($event)"
+  ></app-note-card>
+</div>

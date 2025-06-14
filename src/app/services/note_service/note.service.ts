@@ -55,4 +55,19 @@ export class NoteService {
     const headers = this.http.getHeader();
     return this.http.postApi('/notes/changesColorNotes', payload, headers);
   }
+
+  getReminderList() {
+    let headers = this.http.getHeader();
+    return this.http.getApi('/notes/getReminderNotesList', headers);
+  }
+
+  addUpdateReminder(payload: any) {
+    const headers = this.http.getHeader();
+    return this.http.postApi('/notes/addUpdateReminderNotes', payload, headers);
+  }
+
+  removeReminder(payload: any) {
+    const headers = this.http.getHeader();
+    return this.http.postApi(' /notes/removeReminderNotes', payload, headers);
+  }
 }

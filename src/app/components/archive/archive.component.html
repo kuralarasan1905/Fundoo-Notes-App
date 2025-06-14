@@ -7,7 +7,7 @@
 </div>
 
 <div class="note-shared-wrapper">
-  <!-- LIST VIEW (Constrained width) -->
+  <!-- LIST VIEW  -->
   <div *ngIf="viewMode === 'list'" class="note-grid list">
     <app-note-card
       *ngFor="let note of archivedNotes"
@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<!-- GRID VIEW (Full width) -->
+<!-- GRID VIEW  -->
 <div *ngIf="viewMode === 'grid'" class="note-grid grid">
   <app-note-card
     *ngFor="let note of archivedNotes"

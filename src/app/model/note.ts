@@ -5,7 +5,7 @@ export interface Note {
   isPined?: boolean;
   isArchived?: boolean;
   isDeleted?: boolean;
-  reminder?: any[];
+  reminder?: string;
   createdDate?: string;
   modifiedDate?: string;
   color?: string;

@@ -28,6 +28,8 @@ export class IconsComponent implements OnInit, OnDestroy {
   @Output() moveToTrash = new EventEmitter<void>();
   @Output() deletePermanently = new EventEmitter<void>();
   @Output() restoreNote = new EventEmitter<void>();
+  @Output() reminderSet = new EventEmitter<string>();
+  @Output() reminderRemove = new EventEmitter<void>();
 
   showPalette = false;
   colors: string[] = [];
@@ -108,5 +110,31 @@ export class IconsComponent implements OnInit, OnDestroy {
 
   closeBox(): void {
     this.closeBtn.emit(true);
+  }
+
+  setReminder(option: string) {
+    const now = new Date();
+    let reminderDate: Date | undefined;
+
+    switch (option) {
+      case 'today':
+        reminderDate = new Date(now);
+        reminderDate.setHours(20, 0, 0, 0); // 8 PM today
+        break;
+      case 'tomorrow':
+        reminderDate = new Date(now);
+        reminderDate.setDate(now.getDate() + 1);
+        reminderDate.setHours(8, 0, 0, 0); // 8 AM tomorrow
+        break;
+      case 'nextWeek':
+        reminderDate = new Date(now);
+        reminderDate.setDate(now.getDate() + 7);
+        reminderDate.setHours(8, 0, 0, 0); // 8 AM next week
+        break;
+    }
+
+    if (reminderDate) {
+      this.reminderSet.emit(reminderDate.toISOString());
+    }
   }
 }

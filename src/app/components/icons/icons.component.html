@@ -37,9 +37,22 @@
           (click)="selectColor(color)"
         ></div>
       </div>
-
-      <button class="icon-btn" id="notification">
-        <mat-icon class="icon">notification_important</mat-icon>
+      <mat-menu #reminderMenu="matMenu">
+        <button mat-menu-item (click)="setReminder('today')">
+          Later Today
+        </button>
+        <button mat-menu-item (click)="setReminder('tomorrow')">
+          Tomorrow
+        </button>
+        <button mat-menu-item (click)="setReminder('nextWeek')">
+          Next Week
+        </button>
+        <button mat-menu-item (click)="reminderRemove.emit()">
+          Remove Reminder
+        </button>
+      </mat-menu>
+      <button class="icon-btn" [matMenuTriggerFor]="reminderMenu" id="reminder">
+        <mat-icon class="icon">add_alert</mat-icon>
       </button>
       <button class="icon-btn" id="collaborator">
         <mat-icon class="icon">person_add</mat-icon>
