@@ -1,0 +1,38 @@
+### Test Single Note Pin/Unpin API (matches your frontend format)
+### Make sure your backend is running on http://localhost:5000
+
+### STEP 1: Test Pin a Note (set IsPinned to true)
+POST http://localhost:5000/api/Notes/pinUnpinNotes
+Content-Type: application/json
+
+{
+  "NoteId": 1,
+  "IsPinned": true
+}
+
+### STEP 2: Test Unpin a Note (set IsPinned to false)
+POST http://localhost:5000/api/Notes/pinUnpinNotes
+Content-Type: application/json
+
+{
+  "NoteId": 1,
+  "IsPinned": false
+}
+
+### STEP 3: Test with different note ID
+POST http://localhost:5000/api/Notes/pinUnpinNotes
+Content-Type: application/json
+
+{
+  "NoteId": 2,
+  "IsPinned": true
+}
+
+### STEP 4: Test Bulk Pin/Unpin (if needed in future)
+POST http://localhost:5000/api/Notes/bulkPinUnpinNotes
+Content-Type: application/json
+
+{
+  "NoteIdList": ["1", "2", "3"],
+  "IsPinned": true
+}

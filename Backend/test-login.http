@@ -1,0 +1,27 @@
+### Test Login API with your actual user
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "kuralarasan1905@gmail.com",
+  "password": "YourActualPassword"
+}
+
+### Test Notes API with JWT Token (replace TOKEN_HERE with actual token from login response)
+GET http://localhost:5000/api/notes/test
+Authorization: Bearer TOKEN_HERE
+
+### Create Note with JWT Token
+POST http://localhost:5000/api/notes/addNotes
+Content-Type: application/json
+Authorization: Bearer TOKEN_HERE
+
+{
+  "title": "Test Note with JWT",
+  "content": "This note is created with proper JWT authentication",
+  "color": "#FFF9C4"
+}
+
+### Get Notes List with JWT Token
+GET http://localhost:5000/api/notes/getNotesList
+Authorization: Bearer TOKEN_HERE

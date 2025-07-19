@@ -1,0 +1,58 @@
+### Test Reminder Backend Endpoints (Professional User Context Service)
+### Make sure your backend is running on https://localhost:7256
+
+### STEP 1: Test basic endpoint first to check if service is working
+GET https://localhost:7256/api/auth/current-user-context
+
+### STEP 2: Set current user context by ID (simpler approach first)
+POST https://localhost:7256/api/auth/set-user-context/2
+
+### STEP 3: Verify current user context is set
+GET https://localhost:7256/api/auth/current-user-context
+
+### STEP 4: Test Add/Update Reminder - Backend will use current user context
+POST https://localhost:7256/api/Notes/addUpdateReminderNotes
+Content-Type: application/json
+
+{
+  "noteIdList": ["7"],
+  "reminderDateTime": "2025-07-10T02:30:00.000Z"
+}
+
+### 1b. Test with PascalCase format (should also work)
+POST https://localhost:7256/api/Notes/addUpdateReminderNotes
+Content-Type: application/json
+
+{
+  "NoteIdList": ["7"],
+  "ReminderDateTime": "2025-07-10T10:00:00.000Z"
+}
+
+### STEP 4: Test Remove Reminder
+POST https://localhost:7256/api/Notes/removeReminderNotes
+Content-Type: application/json
+
+{
+  "noteIdList": ["7"]
+}
+
+### STEP 5: Test with multiple notes
+POST https://localhost:7256/api/Notes/addUpdateReminderNotes
+Content-Type: application/json
+
+{
+  "noteIdList": ["7", "1"],
+  "reminderDateTime": "2025-12-31T15:30:00.000Z"
+}
+
+### STEP 6: Get notes to verify reminder was added
+GET https://localhost:7256/api/Notes/getNotesList
+
+### STEP 7: Get user reminders
+GET https://localhost:7256/api/Reminders
+
+### STEP 8: Alternative - Set user context by ID
+POST https://localhost:7256/api/auth/set-user-context/2
+
+### STEP 9: Clear user context when done testing
+POST https://localhost:7256/api/auth/clear-user-context
