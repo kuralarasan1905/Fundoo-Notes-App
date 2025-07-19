@@ -2,6 +2,8 @@
 
 A Google Keep-inspired notes application built with Angular frontend and ASP.NET Core backend.
 
+> **Note:** This application provides a complete note-taking experience similar to Google Keep with modern web technologies.
+
 ## Project Structure
 
 ```
