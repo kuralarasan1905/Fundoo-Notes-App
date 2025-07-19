@@ -1,0 +1,56 @@
+<div class="dialog-card" [style.background-color]="noteColor">
+  <input
+    [(ngModel)]="title"
+    placeholder="Title"
+    class="edit-title"
+    type="text"
+  />
+  <textarea
+    [(ngModel)]="content"
+    placeholder="Take a note..."
+    class="edit-content"
+    rows="4"
+  ></textarea>
+
+  <!-- Labels display -->
+  <div class="note-labels" *ngIf="note.noteLabels && note.noteLabels.length > 0">
+    <span
+      class="label-chip"
+      *ngFor="let label of note.noteLabels">
+      <mat-icon class="label-icon">label</mat-icon>
+      {{ label.label }}
+    </span>
+  </div>
+
+  <div class="dialog-footer">
+    <!-- Edited time display (Google Keep style) -->
+    <div class="dialog-timestamp" *ngIf="note.modifiedDate">
+      Edited {{ getFormattedTime(note.modifiedDate) }}
+    </div>
+
+    <div class="dialog-actions">
+      <!-- Action icons -->
+      <div class="action-icons">
+        <app-icons
+          [showAll]="true"
+          [isArchived]="note.isArchived ?? false"
+          [inTrash]="false"
+          [inDialog]="true"
+          [note]="note"
+          (colorSelect)="setColor($event)"
+          (closeBtn)="onClose()"
+          (toggleArchive)="onToggleArchive($event)"
+          (moveToTrash)="onMoveToTrash()"
+          (reminderSet)="addReminder($event)"
+          (reminderRemove)="removeReminder()"
+          (labelsUpdated)="onLabelsUpdated($event)"
+        ></app-icons>
+      </div>
+
+      <!-- Close button with proper spacing -->
+      <button class="close-btn" (click)="onClose()">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

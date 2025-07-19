@@ -1,0 +1,361 @@
+<div class="account-container">
+  <!-- Header Section -->
+  <div class="account-header">
+    <div class="profile-section">
+      <div class="profile-avatar" (click)="fileInput.click()">
+        <img
+          *ngIf="currentUser?.profilePicture"
+          [src]="currentUser?.profilePicture"
+          [alt]="(currentUser?.firstName || '') + ' ' + (currentUser?.lastName || '')"
+          class="avatar-image"
+        />
+        <div *ngIf="!currentUser?.profilePicture" class="avatar-placeholder">
+          {{ getInitials(currentUser) }}
+        </div>
+        <div class="avatar-overlay">
+          <mat-icon>camera_alt</mat-icon>
+        </div>
+      </div>
+      
+      <div class="profile-info">
+        <h1 class="user-name">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</h1>
+        <p class="user-email">{{ currentUser?.email }}</p>
+        <button mat-button class="manage-account-btn" (click)="selectedTabIndex = 0">
+          Manage your Google Account
+        </button>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button mat-icon-button matTooltip="Settings" (click)="selectedTabIndex = 2">
+        <mat-icon>settings</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Sign out" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Hidden file input for profile picture -->
+  <input 
+    #fileInput 
+    type="file" 
+    accept="image/*" 
+    style="display: none" 
+    (change)="onFileSelected($event)"
+  />
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading account information...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!isLoading" class="account-content">
+    <mat-tab-group [(selectedIndex)]="selectedTabIndex" class="account-tabs">
+      
+      <!-- Profile Tab -->
+      <mat-tab label="Profile">
+        <div class="tab-content">
+          <mat-card class="profile-card">
+            <mat-card-header>
+              <mat-card-title>Personal Information</mat-card-title>
+              <mat-card-subtitle>Manage your personal details</mat-card-subtitle>
+              <div class="card-actions">
+                <button 
+                  mat-button 
+                  *ngIf="!isEditingProfile" 
+                  (click)="toggleEditProfile()"
+                  class="edit-btn"
+                >
+                  <mat-icon>edit</mat-icon>
+                  Edit
+                </button>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="half-width">
+                    <mat-label>First Name</mat-label>
+                    <input 
+                      matInput 
+                      formControlName="firstName" 
+                      [readonly]="!isEditingProfile"
+                    />
+                    <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">
+                      First name is required
+                    </mat-error>
+                    <mat-error *ngIf="profileForm.get('firstName')?.hasError('minlength')">
+                      First name must be at least 2 characters
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="half-width">
+                    <mat-label>Last Name</mat-label>
+                    <input 
+                      matInput 
+                      formControlName="lastName" 
+                      [readonly]="!isEditingProfile"
+                    />
+                    <mat-error *ngIf="profileForm.get('lastName')?.hasError('required')">
+                      Last name is required
+                    </mat-error>
+                    <mat-error *ngIf="profileForm.get('lastName')?.hasError('minlength')">
+                      Last name must be at least 2 characters
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Email</mat-label>
+                  <input 
+                    matInput 
+                    type="email" 
+                    formControlName="email" 
+                    [readonly]="!isEditingProfile"
+                  />
+                  <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+                    Email is required
+                  </mat-error>
+                  <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
+                    Please enter a valid email
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Phone Number</mat-label>
+                  <input 
+                    matInput 
+                    type="tel" 
+                    formControlName="phoneNumber" 
+                    [readonly]="!isEditingProfile"
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Date of Birth</mat-label>
+                  <input 
+                    matInput 
+                    type="date" 
+                    formControlName="dateOfBirth" 
+                    [readonly]="!isEditingProfile"
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Bio</mat-label>
+                  <textarea 
+                    matInput 
+                    formControlName="bio" 
+                    rows="3" 
+                    [readonly]="!isEditingProfile"
+                    placeholder="Tell us about yourself..."
+                  ></textarea>
+                  <mat-error *ngIf="profileForm.get('bio')?.hasError('maxlength')">
+                    Bio cannot exceed 500 characters
+                  </mat-error>
+                </mat-form-field>
+
+                <div *ngIf="isEditingProfile" class="form-actions">
+                  <button mat-button type="button" (click)="toggleEditProfile()">
+                    Cancel
+                  </button>
+                  <button 
+                    mat-raised-button 
+                    color="primary" 
+                    type="submit" 
+                    [disabled]="!profileForm.valid"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Security Tab -->
+      <mat-tab label="Security">
+        <div class="tab-content">
+          <!-- Change Password Card -->
+          <mat-card class="security-card">
+            <mat-card-header>
+              <mat-card-title>Change Password</mat-card-title>
+              <mat-card-subtitle>Update your account password</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Current Password</mat-label>
+                  <input matInput type="password" formControlName="currentPassword" />
+                  <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">
+                    Current password is required
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>New Password</mat-label>
+                  <input matInput type="password" formControlName="newPassword" />
+                  <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('required')">
+                    New password is required
+                  </mat-error>
+                  <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">
+                    Password must be at least 8 characters
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Confirm New Password</mat-label>
+                  <input matInput type="password" formControlName="confirmPassword" />
+                  <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('required')">
+                    Please confirm your new password
+                  </mat-error>
+                  <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('passwordMismatch')">
+                    Passwords do not match
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="form-actions">
+                  <button 
+                    mat-raised-button 
+                    color="primary" 
+                    type="submit" 
+                    [disabled]="!passwordForm.valid"
+                  >
+                    Change Password
+                  </button>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Active Sessions Card -->
+          <mat-card class="sessions-card">
+            <mat-card-header>
+              <mat-card-title>Active Sessions</mat-card-title>
+              <mat-card-subtitle>Manage your active login sessions</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <mat-list *ngIf="loginSessions.length > 0; else noSessions">
+                <mat-list-item *ngFor="let session of loginSessions">
+                  <mat-icon matListItemIcon>{{ session.isCurrent ? 'computer' : 'devices' }}</mat-icon>
+                  <div matListItemTitle>{{ session.deviceName }}</div>
+                  <div matListItemLine>
+                    {{ session.location }} • Last active: {{ session.lastActive | date:'short' }}
+                  </div>
+                  <button 
+                    *ngIf="!session.isCurrent" 
+                    mat-icon-button 
+                    matListItemMeta
+                    (click)="revokeSession(session.id)"
+                    matTooltip="Sign out"
+                  >
+                    <mat-icon>logout</mat-icon>
+                  </button>
+                  <span *ngIf="session.isCurrent" matListItemMeta class="current-session">
+                    Current
+                  </span>
+                </mat-list-item>
+              </mat-list>
+
+              <ng-template #noSessions>
+                <div class="no-sessions">
+                  <mat-icon>security</mat-icon>
+                  <p>No active sessions found</p>
+                </div>
+              </ng-template>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Preferences Tab -->
+      <mat-tab label="Preferences">
+        <div class="tab-content">
+          <mat-card class="preferences-card">
+            <mat-card-header>
+              <mat-card-title>App Preferences</mat-card-title>
+              <mat-card-subtitle>Customize your Keep experience</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <form [formGroup]="preferencesForm" (ngSubmit)="savePreferences()">
+                <div class="preference-group">
+                  <h3>Appearance</h3>
+                  
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Theme</mat-label>
+                    <mat-select formControlName="theme" (selectionChange)="savePreferences()">
+                      <mat-option *ngFor="let theme of themeOptions" [value]="theme.value">
+                        {{ theme.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Default View</mat-label>
+                    <mat-select formControlName="defaultView" (selectionChange)="savePreferences()">
+                      <mat-option *ngFor="let view of viewOptions" [value]="view.value">
+                        {{ view.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="preference-group">
+                  <h3>Language & Region</h3>
+                  
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Language</mat-label>
+                    <mat-select formControlName="language" (selectionChange)="savePreferences()">
+                      <mat-option *ngFor="let lang of languageOptions" [value]="lang.value">
+                        {{ lang.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="preference-group">
+                  <h3>Notifications</h3>
+                  
+                  <div class="toggle-option">
+                    <div class="toggle-info">
+                      <span class="toggle-label">Email Notifications</span>
+                      <span class="toggle-description">Receive email updates about your notes</span>
+                    </div>
+                    <mat-slide-toggle 
+                      formControlName="emailNotifications"
+                      (change)="savePreferences()"
+                    ></mat-slide-toggle>
+                  </div>
+
+                  <div class="toggle-option">
+                    <div class="toggle-info">
+                      <span class="toggle-label">Push Notifications</span>
+                      <span class="toggle-description">Receive push notifications for reminders</span>
+                    </div>
+                    <mat-slide-toggle 
+                      formControlName="pushNotifications"
+                      (change)="savePreferences()"
+                    ></mat-slide-toggle>
+                  </div>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</div>

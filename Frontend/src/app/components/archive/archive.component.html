@@ -1,0 +1,42 @@
+<div class="empty-archive" *ngIf="archivedNotes.length === 0">
+  <img
+    [src]="isDarkMode ? 'assets/archiveD.png' : 'assets/archiveL.png'"
+    alt="archive"
+  />
+  <p class="empty-archive-text">Your archived notes appear here</p>
+
+  <!-- Debug button to refresh archived notes -->
+  <button
+    class="refresh-btn"
+    (click)="refreshArchivedNotes()"
+    matTooltip="Refresh archived notes list"
+    style="margin-top: 16px; padding: 8px 16px; background: #1a73e8; color: white; border: none; border-radius: 4px; cursor: pointer;">
+     Refresh Archived Notes
+  </button>
+</div>
+
+<div class="note-shared-wrapper">
+  <!-- LIST VIEW  -->
+  <div *ngIf="viewMode === 'list'" class="note-grid list">
+    <app-note-card
+      *ngFor="let note of archivedNotes"
+      [note]="note"
+      [viewMode]="viewMode"
+      (editNote)="onEditNote($event)"
+      (deleteNote)="onDeleteNote($event)"
+      (archiveNote)="onArchiveNote($event)"
+    ></app-note-card>
+  </div>
+</div>
+
+<!-- GRID VIEW  -->
+<div *ngIf="viewMode === 'grid'" class="note-grid grid">
+  <app-note-card
+    *ngFor="let note of archivedNotes"
+    [note]="note"
+    [viewMode]="viewMode"
+    (editNote)="onEditNote($event)"
+    (deleteNote)="onDeleteNote($event)"
+    (archiveNote)="onArchiveNote($event)"
+  ></app-note-card>
+</div>

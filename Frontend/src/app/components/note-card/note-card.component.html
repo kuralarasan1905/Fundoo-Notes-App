@@ -1,0 +1,91 @@
+<div
+  class="note-card"
+  [class.list-view]="viewMode === 'list'"
+  [class.grid-view]="viewMode === 'grid'"
+  [ngStyle]="{
+    'background-color': isEditing ? noteColor : note.color || '#ffffff'
+  }"
+  (mouseenter)="hover = true"
+  (mouseleave)="hover = false"
+>
+  <button
+    mat-icon-button
+    class="pin-btn"
+    *ngIf="hover || note.isPined"
+    (click)="onPinClick($event)"
+    matTooltip="{{ note.isPined ? 'Unpin note' : 'Pin note' }}"
+  >
+    <mat-icon class="pin-icon" [class.pinned]="note.isPined">{{
+      note.isPined ? "push_pin" : "push_pin"
+    }}</mat-icon>
+  </button>
+
+  <div *ngIf="!isEditing" class="note-content" (click)="openDialog.emit()">
+    <h3 *ngIf="note.title" class="note-title">{{ note.title }}</h3>
+    <p class="note-content-text">{{ note.previewContent }}</p>
+
+    <!-- Enhanced reminder display with status -->
+    <div
+      class="note-reminder"
+      *ngIf="note.reminder"
+      [class.reminder-overdue]="isReminderOverdue(note.reminder)"
+      [class.reminder-today]="getReminderStatus(note.reminder) === 'today'"
+      [class.reminder-upcoming]="getReminderStatus(note.reminder) === 'upcoming'"
+    >
+      <mat-icon class="reminder-icon">
+        {{ isReminderOverdue(note.reminder) ? 'notification_important' : 'schedule' }}
+      </mat-icon>
+      <span class="reminder-text">{{ getFormattedReminderTime(note.reminder) }}</span>
+    </div>
+
+    <!-- Labels display -->
+    <div class="note-labels" *ngIf="note.noteLabels && note.noteLabels.length > 0">
+      <span
+        class="label-chip"
+        *ngFor="let label of note.noteLabels">
+        <mat-icon class="label-icon">label</mat-icon>
+        {{ label.label || label.name }}
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="isEditing" class="edit-content">
+    <input
+      [(ngModel)]="editTitle"
+      placeholder="Title"
+      class="edit-title"
+      type="text"
+    />
+    <textarea
+      [(ngModel)]="editContent"
+      placeholder="Take a note..."
+      class="edit-content"
+      rows="4"
+    ></textarea>
+  </div>
+
+  <div class="note-footer">
+    <!-- Edited time display (Google Keep style) -->
+    <div class="note-timestamp" *ngIf="note.modifiedDate && !isEditing">
+      Edited {{ getFormattedTime(note.modifiedDate) }}
+    </div>
+
+    <div class="note-actions">
+      <app-icons
+        [showAll]="false"
+        [isArchived]="note.isArchived ?? false"
+        [note]="note"
+        (colorSelect)="setColor($event)"
+        (closeBtn)="onCancel()"
+        (toggleArchive)="toggleArchiveStatus($event)"
+        [inTrash]="inTrash"
+        (moveToTrash)="onDelete()"
+        (restoreNote)="restoreThisNote()"
+        (deletePermanently)="deleteThisNoteForever()"
+        (reminderSet)="addReminder($event)"
+        (reminderRemove)="removeReminder()"
+        (labelsUpdated)="onLabelsUpdated($event)"
+      ></app-icons>
+    </div>
+  </div>
+</div>

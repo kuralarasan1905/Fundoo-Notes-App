@@ -1,0 +1,107 @@
+<div class="edit-labels-container">
+  <div class="edit-labels-header">
+    <h2>Edit labels</h2>
+  </div>
+
+  <div class="labels-list">
+    <!-- Create new label section -->
+    <div class="label-item create-label" *ngIf="!isCreatingNew">
+      <button
+        mat-icon-button
+        class="label-icon-btn"
+        (click)="startCreatingLabel()"
+        matTooltip="Create label"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <span class="label-text" (click)="startCreatingLabel()">Create label</span>
+    </div>
+
+    <!-- New label input -->
+    <div class="label-item" *ngIf="isCreatingNew">
+      <button
+        mat-icon-button
+        class="label-icon-btn"
+        (click)="cancelCreateLabel()"
+        matTooltip="Cancel"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <input
+        type="text"
+        class="label-input"
+        [(ngModel)]="newLabelName"
+        placeholder="Create label"
+        (keydown)="onKeyPress($event, 'create')"
+        #newLabelInput
+      />
+      <button
+        mat-icon-button
+        class="label-action-btn"
+        (click)="createLabel()"
+        [disabled]="!newLabelName.trim()"
+        matTooltip="Create label">
+        <mat-icon>check</mat-icon>
+      </button>
+    </div>
+
+    <!-- Existing labels -->
+    <div class="label-item" *ngFor="let label of labels">
+      <!-- Edit mode -->
+      <div *ngIf="editingLabelId === label.id" class="label-edit-mode">
+        <button
+          mat-icon-button
+          class="label-icon-btn"
+          matTooltip="Label">
+          <mat-icon>label_outline</mat-icon>
+        </button>
+        <input
+          type="text"
+          class="label-input"
+          [(ngModel)]="editingLabelName"
+          (keydown)="onKeyPress($event, 'edit')"
+          #editLabelInput>
+        <button
+          mat-icon-button
+          class="label-action-btn"
+          (click)="updateLabel()"
+          [disabled]="!editingLabelName.trim()"
+          matTooltip="Save">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="label-action-btn"
+          (click)="deleteLabel(label.id)"
+          matTooltip="Delete label">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
+
+      <!-- View mode -->
+      <div *ngIf="editingLabelId !== label.id" class="label-view-mode">
+        <button
+          mat-icon-button
+          class="label-icon-btn"
+          matTooltip="Label">
+          <mat-icon>label_outline</mat-icon>
+        </button>
+        <span class="label-text" (click)="startEditingLabel(label)">{{ label.label || label.name }}</span>
+        <button
+          mat-icon-button
+          class="label-action-btn edit-btn"
+          (click)="startEditingLabel(label)"
+          matTooltip="Edit label">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="label-action-btn delete-btn"
+          (click)="deleteLabel(label.id)"
+          matTooltip="Delete label">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

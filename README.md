@@ -1,27 +1,80 @@
-# FundooNotes
+# Fundoo Notes App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+A Google Keep-inspired notes application built with Angular frontend and ASP.NET Core backend.
 
-## Development server
+## Project Structure
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```
+Fundoo-Notes-App/
+├── Frontend/          # Angular application
+├── Backend/           # ASP.NET Core Web API
+└── README.md         # This file
+```
 
-## Code scaffolding
+## Frontend (Angular)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The frontend is built with Angular and provides a Google Keep-like interface for managing notes.
 
-## Build
+### Features
+- Create, edit, and delete notes
+- Archive and trash functionality
+- Color coding for notes
+- Labels and reminders
+- Pin/unpin notes
+- Grid and list view modes
+- User authentication
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Getting Started
 
-## Running unit tests
+Navigate to the Frontend directory:
+```bash
+cd Frontend
+npm install
+ng serve
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Backend (ASP.NET Core)
 
-## Running end-to-end tests
+The backend provides REST API endpoints using Clean Architecture with CQRS pattern.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Features
+- JWT Authentication
+- CRUD operations for notes
+- Label management
+- Reminder functionality
+- Archive and trash operations
+- SQL Server database
 
-## Further help
+### Getting Started
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Navigate to the Backend directory and run the application using Visual Studio or:
+```bash
+cd Backend
+dotnet run
+```
+
+## Technologies Used
+
+### Frontend
+- Angular
+- Angular Material
+- TypeScript
+- SCSS
+
+### Backend
+- ASP.NET Core
+- Entity Framework Core
+- SQL Server
+- MediatR (CQRS)
+- JWT Authentication
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.

@@ -1,0 +1,163 @@
+.edit-labels-container {
+  max-width: 500px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+.edit-labels-header {
+  margin-bottom: 24px;
+
+  h2 {
+    color: var(--text-color);
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0 8px;
+  }
+}
+
+.labels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--s-hover);
+  }
+
+  &.create-label {
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--s-hover);
+    }
+  }
+}
+
+.label-icon-btn {
+  color: var(--icon-color);
+  margin-right: 16px;
+
+  &:hover {
+    background-color: var(--s-hover);
+    color: var(--text-color);
+  }
+
+  mat-icon {
+    font-size: 20px;
+  }
+}
+
+.label-text {
+  flex: 1;
+  color: var(--text-color);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 0;
+
+  &:hover {
+    color: var(--text-color);
+  }
+}
+
+.label-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 16px;
+  outline: none;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+
+  &:focus {
+    border-bottom-color: #1a73e8;
+  }
+
+  &::placeholder {
+    color: var(--place);
+  }
+}
+
+.label-action-btn {
+  color: var(--icon-color);
+  opacity: 0;
+  transition: opacity 0.2s, background-color 0.2s;
+
+  &:hover {
+    background-color: var(--s-hover);
+    color: var(--text-color);
+  }
+
+  &:disabled {
+    color: #5f6368;
+    cursor: not-allowed;
+  }
+
+  mat-icon {
+    font-size: 18px;
+  }
+}
+
+.label-item:hover .label-action-btn {
+  opacity: 1;
+}
+
+.label-edit-mode,
+.label-view-mode {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.label-edit-mode .label-action-btn {
+  opacity: 1;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .edit-labels-container {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+
+  .edit-labels-header h2 {
+    font-size: 20px;
+    padding: 0 4px;
+  }
+
+  .label-item {
+    padding: 12px 8px;
+  }
+
+  .label-icon-btn {
+    margin-right: 12px;
+  }
+
+  .label-text,
+  .label-input {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-labels-container {
+    padding: 0 8px;
+  }
+
+  .label-item {
+    padding: 16px 4px;
+  }
+
+  .label-icon-btn {
+    margin-right: 8px;
+  }
+}

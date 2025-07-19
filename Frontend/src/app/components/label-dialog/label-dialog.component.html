@@ -1,0 +1,46 @@
+<div class="label-dialog">
+  <div class="dialog-header">
+    <h3>Label note</h3>
+    <button mat-icon-button (click)="onClose()" class="close-btn" matTooltip="Close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        placeholder="Enter label name"
+        [(ngModel)]="searchText"
+        (keydown)="onKeyPress($event)">
+    </mat-form-field>
+  </div>
+
+  <div class="create-label-section" *ngIf="shouldShowCreateLabel">
+    <div class="create-label-item" (click)="createNewLabel()" matTooltip="Create new label">
+      <mat-icon>add</mat-icon>
+      <span>Create "{{ searchText.trim() }}"</span>
+    </div>
+  </div>
+
+  <div class="labels-list">
+    <div
+      class="label-item"
+      *ngFor="let label of filteredLabels"
+      (click)="toggleLabel(label)">
+      <mat-checkbox
+        [checked]="isLabelSelected(label)"
+        (change)="toggleLabel(label)">
+      </mat-checkbox>
+      <mat-icon class="label-icon">label_outline</mat-icon>
+      <span class="label-name">{{ label.label || label.name }}</span>
+    </div>
+  </div>
+
+  <div class="dialog-footer">
+    <button mat-button (click)="onClose()" class="done-btn">
+      Done
+    </button>
+  </div>
+</div>

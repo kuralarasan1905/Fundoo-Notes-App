@@ -1,0 +1,222 @@
+// Google Keep Dialog Styling - Content Container
+.dialog-card {
+  border: none;
+  border-radius: 0;
+  padding: 16px;
+  width: 600px;
+  max-width: 90vw;
+  min-height: 120px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #202124;
+  position: relative;
+  background-color: transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  overflow: hidden;
+  box-sizing: border-box;
+  height: 100%;
+
+  // Ensure no scrollbars appear
+  * {
+    box-sizing: border-box;
+  }
+
+
+}
+
+// Global dialog container styling to ensure color application works
+::ng-deep .mat-mdc-dialog-container,
+::ng-deep .mat-dialog-container,
+::ng-deep .cdk-dialog-container {
+  background-color: inherit !important;
+  transition: background-color 0.3s ease !important;
+  border-radius: 8px !important;
+  z-index: 1000 !important;
+
+  // Ensure the dialog content inherits the background
+  .mat-mdc-dialog-content,
+  .mat-dialog-content {
+    background-color: inherit !important;
+  }
+}
+
+// Ensure color palette appears above dialog
+::ng-deep .color-palette {
+  z-index: 2500 !important;
+}
+
+
+
+.edit-title {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #202124;
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+
+  &::placeholder {
+    color: #5f6368;
+  }
+}
+
+.edit-content {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #202124;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  line-height: 1.5;
+  min-height: 60px;
+  padding: 0;
+  margin: 0;
+
+  &::placeholder {
+    color: #5f6368;
+  }
+}
+
+.note-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.label-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(95, 99, 104, 0.2);
+  color: #202124;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  gap: 4px;
+
+  .label-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #5f6368;
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  min-height: 48px; // Ensure consistent height
+}
+
+.dialog-timestamp {
+  color: #5f6368;
+  font-size: 11px;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px; // Increased gap between icons and close button
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #5f6368;
+  font-size: 14px;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  min-width: 64px; // Ensure consistent button width
+  text-align: center;
+
+  &:hover {
+    background-color: rgba(95, 99, 104, 0.08);
+    color: #202124;
+    transform: scale(1.02);
+  }
+
+  &:active {
+    background-color: rgba(95, 99, 104, 0.12);
+    transform: scale(0.98);
+  }
+
+  // Smooth animation for all interactions
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .dialog-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .dialog-footer {
+    margin-top: 12px;
+    padding-top: 10px;
+    min-height: 44px;
+  }
+
+  .dialog-actions {
+    gap: 12px;
+  }
+
+  .close-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    min-width: 56px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dialog-card {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .edit-title {
+    font-size: 15px;
+  }
+
+  .edit-content {
+    font-size: 13px;
+  }
+
+  .dialog-timestamp {
+    font-size: 10px;
+  }
+
+  .close-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    min-width: 48px;
+  }
+}

@@ -1,0 +1,510 @@
+// Google Keep Note Card Styling
+.note-card {
+  // Remove !important to allow dynamic colors from backend
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  break-inside: avoid;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  // Grid view (default) styling - uniform height
+  &.grid-view {
+    max-width: 100%;
+    height: 180px; // Fixed height for uniform appearance
+    min-height: 180px;
+  }
+
+  // List view styling - more compact, horizontal layout like Google Keep
+  &.list-view {
+    max-width: 100%;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+
+    .note-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .note-title {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.3;
+      margin: 0 0 4px 0;
+      color: var(--text-color);
+    }
+
+    .note-content-text {
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--text-secondary, #5f6368);
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .note-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .note-timestamp {
+        font-size: 12px;
+        color: var(--text-secondary, #5f6368);
+      }
+
+      .note-actions {
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+    }
+
+    .pin-btn {
+      top: 12px;
+      right: 12px;
+    }
+
+    &:hover {
+      .note-actions {
+        opacity: 1;
+      }
+    }
+
+    // Hide reminder and labels in list view for cleaner look
+    .note-reminder,
+    .note-labels {
+      display: none;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    .note-actions {
+      opacity: 1;
+    }
+
+    .pin-btn {
+      opacity: 1;
+    }
+  }
+
+  &.editing {
+    cursor: default;
+
+    .note-actions {
+      opacity: 1;
+    }
+  }
+}
+
+.pin-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #5f6368;
+  opacity: 0;
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+
+  .pin-icon {
+    font-size: 18px;
+    transition: all 0.2s ease;
+
+    &.pinned {
+      color: #1a73e8;
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    color: #202124;
+    background-color: rgba(95, 99, 104, 0.1);
+    border-radius: 50%;
+  }
+}
+
+.note-content {
+  flex: 1;
+  padding-right: 40px; // Space for pin button
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.note-title {
+  color: #202124;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+  word-wrap: break-word;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.note-content-text {
+  color: #202124;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  display: -webkit-box;
+  -webkit-line-clamp: 6; // Reduced to fit in fixed height
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+// Reminder display styling (Google Keep style)
+.note-reminder {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0;
+  padding: 4px 8px;
+  background-color: rgba(95, 99, 104, 0.1);
+  border-radius: 12px;
+  font-size: 12px;
+  color: #5f6368;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  width: fit-content;
+  transition: all 0.2s ease;
+
+  .reminder-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #5f6368;
+    transition: color 0.2s ease;
+  }
+
+  .reminder-text {
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  // Status-based styling (Google Keep style)
+  &.reminder-today {
+    background-color: rgba(251, 188, 4, 0.15);
+    color: #ea8600;
+
+    .reminder-icon {
+      color: #ea8600;
+    }
+  }
+
+  &.reminder-overdue {
+    background-color: rgba(234, 67, 53, 0.15);
+    color: #d93025;
+
+    .reminder-icon {
+      color: #d93025;
+      animation: pulse 2s infinite;
+    }
+  }
+
+  &.reminder-upcoming {
+    background-color: rgba(26, 115, 232, 0.15);
+    color: #1a73e8;
+
+    .reminder-icon {
+      color: #1a73e8;
+    }
+  }
+}
+
+// Pulse animation for overdue reminders
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.edit-content {
+  .edit-title {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #202124 !important; // Google Keep dark text
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 12px;
+    outline: none;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+
+    &::placeholder {
+      color: #5f6368 !important; // Google Keep placeholder gray
+    }
+  }
+
+  .edit-description {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #202124 !important; // Google Keep dark text
+    font-size: 14px;
+    outline: none;
+    resize: none;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+
+    &::placeholder {
+      color: #5f6368 !important; // Google Keep placeholder gray
+    }
+  }
+}
+
+.note-footer {
+  margin-top: auto; // Push to bottom in flexbox
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0; // Prevent shrinking
+  min-height: 32px;
+}
+
+.note-timestamp {
+  color: #5f6368;
+  font-size: 11px;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+// Show timestamp on hover
+.note-card:hover .note-timestamp {
+  opacity: 1;
+}
+
+.note-actions {
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  position: relative;
+  gap: 4px;
+
+  &.visible,
+  .note-card:hover & {
+    opacity: 1;
+  }
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: #5f6368;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(95, 99, 104, 0.1);
+    color: #202124;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.note-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.label-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(95, 99, 104, 0.2);
+  color: var(--text-color);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  gap: 4px;
+
+  .label-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+// Mobile responsive adjustments
+@media (max-width: 768px) {
+  .note-card {
+    padding: 12px;
+
+    &.grid-view {
+      height: 160px; // Uniform height for tablet
+      min-height: 160px;
+    }
+
+    &.list-view {
+      padding: 10px 12px;
+      min-height: 50px;
+    }
+
+    .note-title {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .note-content-text {
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .note-footer {
+      margin-top: 8px;
+
+      .note-timestamp {
+        font-size: 11px;
+      }
+    }
+
+    .pin-btn {
+      width: 28px;
+      height: 28px;
+      top: 6px;
+      right: 6px;
+
+      .pin-icon {
+        font-size: 16px;
+      }
+    }
+
+    .note-content {
+      padding-right: 35px; // Adjust for smaller pin button
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .note-card {
+    padding: 10px;
+
+    &.grid-view {
+      height: 140px; // Uniform height for mobile
+      min-height: 140px;
+    }
+
+    .note-title {
+      font-size: 14px;
+      margin-bottom: 4px;
+      -webkit-line-clamp: 2;
+    }
+
+    .note-content-text {
+      font-size: 12px;
+      -webkit-line-clamp: 3;
+    }
+
+    .note-footer {
+      margin-top: 6px;
+
+      .note-timestamp {
+        font-size: 10px;
+      }
+    }
+
+    .note-reminder {
+      font-size: 11px;
+      padding: 3px 6px;
+
+      .reminder-icon {
+        font-size: 14px;
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .label-chip {
+      font-size: 10px;
+      padding: 2px 6px;
+
+      .label-icon {
+        font-size: 12px;
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .note-card {
+    padding: 8px;
+
+    &.grid-view {
+      height: 120px; // Uniform height for small mobile
+      min-height: 120px;
+    }
+
+    .note-title {
+      font-size: 13px;
+      -webkit-line-clamp: 1;
+    }
+
+    .note-content-text {
+      font-size: 11px;
+      -webkit-line-clamp: 2;
+    }
+
+    .note-content {
+      padding-right: 30px;
+    }
+
+    .pin-btn {
+      width: 24px;
+      height: 24px;
+      top: 4px;
+      right: 4px;
+
+      .pin-icon {
+        font-size: 14px;
+      }
+    }
+  }
+}

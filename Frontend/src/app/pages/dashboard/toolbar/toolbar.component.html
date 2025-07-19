@@ -1,0 +1,122 @@
+<mat-toolbar class="toolbar">
+  <button
+    mat-icon-button
+    class="menu-btn"
+    (click)="toggle.emit()"
+    *ngIf="!isSearchOpen"
+    matTooltip="Main menu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <img src="assets/keep.png" alt="Logo" class="logo" *ngIf="!isSearchOpen" />
+  <span class="title" *ngIf="!isSearchOpen">{{ title }}</span>
+
+  <div
+    class="search-bar"
+    [class.expanded]="isSearchOpen"
+    *ngIf="isSearchOpen || isLargeScreen"
+  >
+    <button
+      mat-icon-button
+      class="back-btn"
+      *ngIf="!isLargeScreen"
+      (click)="closeSearch()"
+      matTooltip="Close search"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      matInput
+      placeholder="Search"
+      [(ngModel)]="searchQuery"
+      (input)="onSearchInput($event)"
+    />
+  </div>
+
+  <div class="actions">
+    <button
+      mat-icon-button
+      class="search-toggle"
+      *ngIf="!isLargeScreen && !isSearchOpen"
+      (click)="openSearch()"
+      matTooltip="Search"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+
+    <div class="cont1">
+      <button mat-icon-button (click)="onRefresh()" matTooltip="Refresh">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-icon-button (click)="toggleView()" *ngIf="isLargeScreen"
+              [matTooltip]="isGridView ? 'List view' : 'Grid view'">
+        <mat-icon>{{ isGridView ? "view_agenda" : "grid_view" }}</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="settingsMenu" matTooltip="Settings">
+        <mat-icon>settings</mat-icon>
+      </button>
+    </div>
+
+    <div class="cont2">
+      <button mat-icon-button matTooltip="Google apps"><mat-icon>apps</mat-icon></button>
+      <button mat-icon-button [matMenuTriggerFor]="accountMenu" matTooltip="Account">
+        <div class="profile-avatar" *ngIf="currentUser?.profilePicture; else defaultAvatar">
+          <img [src]="currentUser!.profilePicture" [alt]="(currentUser!.firstName || '') + ' ' + (currentUser!.lastName || '')" />
+        </div>
+        <ng-template #defaultAvatar>
+          <div class="avatar-placeholder">
+            {{ getInitials() }}
+          </div>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+
+<mat-menu #settingsMenu="matMenu">
+  <button mat-menu-item (click)="toggleTheme()">
+    {{ isDarkTheme ? "Enable light theme" : "Enable dark theme" }}
+  </button>
+  <button mat-menu-item>Send feedback</button>
+  <button mat-menu-item>Help</button>
+  <button mat-menu-item>App downloads</button>
+  <button mat-menu-item>Keyboard shortcuts</button>
+</mat-menu>
+
+<mat-menu #accountMenu="matMenu" class="account-menu">
+  <div class="account-menu-header" mat-menu-item disabled>
+    <div class="user-info">
+      <div class="user-avatar">
+        <img *ngIf="currentUser?.profilePicture" [src]="currentUser!.profilePicture" [alt]="(currentUser?.firstName || '') + ' ' + (currentUser?.lastName || '')" />
+        <div *ngIf="!currentUser?.profilePicture" class="avatar-placeholder">
+          {{ getInitials() }}
+        </div>
+      </div>
+      <div class="user-details">
+        <div class="user-name">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
+        <div class="user-email">{{ currentUser?.email }}</div>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item (click)="navigateToAccount()">
+    <mat-icon>person</mat-icon>
+    <span>Manage your account</span>
+  </button>
+
+  <button mat-menu-item (click)="navigateToAccount()">
+    <mat-icon>settings</mat-icon>
+    <span>Account settings</span>
+  </button>
+
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Sign out</span>
+  </button>
+</mat-menu>

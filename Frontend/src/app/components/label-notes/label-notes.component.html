@@ -1,0 +1,146 @@
+<div class="label-notes-container">
+
+
+  <!-- Header Section -->
+  <div class="label-header">
+    <div class="label-info">
+      <button 
+        mat-icon-button 
+        class="back-btn"
+        (click)="goBackToNotes()"
+        matTooltip="Back to notes">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      
+      <div class="label-details" *ngIf="currentLabel">
+        <mat-icon class="label-icon">label</mat-icon>
+        <h1 class="label-title">{{ currentLabel.name || currentLabel.label }}</h1>
+        <span class="notes-count">({{ notes.length }} notes)</span>
+      </div>
+      
+      <div class="label-details" *ngIf="!currentLabel && !isLoading">
+        <mat-icon class="label-icon">label_off</mat-icon>
+        <h1 class="label-title">Label not found</h1>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button 
+        mat-icon-button 
+        class="view-toggle-btn"
+        (click)="toggleViewMode()"
+        [matTooltip]="viewMode === 'grid' ? 'List view' : 'Grid view'">
+        <mat-icon>{{ viewMode === 'grid' ? 'view_list' : 'view_module' }}</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Create Note Section (only show if we have a valid label) -->
+  <div class="create-note-section" *ngIf="currentLabel">
+    <div class="note-form-container">
+      <form
+        [formGroup]="noteForm"
+        class="note-form"
+        [ngStyle]="{ 'background-color': selectedColor }"
+      >
+        <div class="form-content">
+          <input
+            formControlName="title"
+            placeholder="Take a note..."
+            class="note-input"
+            type="text"
+            (click)="expandForm()"
+            (focus)="expandForm()"
+            #titleInput
+          />
+
+          <div class="collapsed-icons" *ngIf="!isExpanded">
+            <button mat-icon-button class="icon-btn" matTooltip="New list">
+              <mat-icon>check_box</mat-icon>
+            </button>
+            <button mat-icon-button class="icon-btn" matTooltip="New note with drawing">
+              <mat-icon>brush</mat-icon>
+            </button>
+            <button mat-icon-button class="icon-btn" matTooltip="New note with image">
+              <mat-icon>image</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <button
+          *ngIf="isExpanded"
+          mat-icon-button
+          class="pin-btn"
+          (click)="togglePin()"
+          [matTooltip]="isPinned ? 'Unpin' : 'Pin'"
+          type="button"
+        >
+          <mat-icon class="pin-icon" [class.pinned]="isPinned">
+            {{ isPinned ? "push_pin" : "push_pin" }}
+          </mat-icon>
+        </button>
+
+        <textarea
+          *ngIf="isExpanded"
+          formControlName="content"
+          placeholder="Take a note..."
+          class="note-textarea"
+          rows="3"
+        ></textarea>
+
+        <div *ngIf="isExpanded" class="form-footer">
+          <app-icons
+            [showAll]="true"
+            (colorSelect)="onColorSelected($event)"
+            (closeBtn)="onCloseNote($event)"
+          ></app-icons>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <mat-icon class="spin">refresh</mat-icon>
+      <p>Loading notes...</p>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!isLoading && notes.length === 0 && currentLabel">
+    <div class="empty-content">
+      <mat-icon class="empty-icon">label_outline</mat-icon>
+      <h2>No notes with this label</h2>
+      <p>Create a note above to get started with the "{{ currentLabel.name }}" label.</p>
+    </div>
+  </div>
+
+  <!-- Notes Grid/List -->
+  <div class="notes-container" *ngIf="!isLoading && notes.length > 0">
+    <div class="notes-grid" [class.list-view]="viewMode === 'list'">
+      <app-note-card
+        *ngFor="let note of notes; trackBy: trackByNoteId"
+        [note]="note"
+        [viewMode]="viewMode"
+        (openDialog)="onEditNote(note)"
+        (archiveNote)="onArchiveNote($event)"
+        (moveToTrash)="onMoveToTrash($event)"
+        (togglePin)="onTogglePin($event)"
+        (refreshNotes)="loadNotesByLabel()">
+      </app-note-card>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="!isLoading && !currentLabel">
+    <div class="error-content">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <h2>Label not found</h2>
+      <p>The label you're looking for doesn't exist or has been deleted.</p>
+      <button mat-raised-button color="primary" (click)="goBackToNotes()">
+        Go back to notes
+      </button>
+    </div>
+  </div>
+</div>

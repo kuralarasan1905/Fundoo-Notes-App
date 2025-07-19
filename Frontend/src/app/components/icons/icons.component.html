@@ -1,0 +1,140 @@
+<div class="icons">
+  <div class="left-icon">
+    <!-- TRASH MODE -->
+    <ng-container *ngIf="inTrash; else normalIcons">
+      <button
+        class="icon-btn"
+        (click)="deletePermanently.emit()"
+        matTooltip="Delete forever"
+      >
+        <mat-icon class="icon">delete_forever</mat-icon>
+      </button>
+
+      <button
+        class="icon-btn"
+        (click)="restoreNote.emit()"
+        matTooltip="Restore"
+      >
+        <mat-icon class="icon">restore_from_trash</mat-icon>
+      </button>
+    </ng-container>
+
+    <!-- NON-TRASH ICONS -->
+    <ng-template #normalIcons>
+      <button class="icon-btn" id="textFormat" *ngIf="showAll" matTooltip="Text formatting">
+        <mat-icon class="icon">text_format</mat-icon>
+      </button>
+
+      <button class="icon-btn" id="palette" (click)="togglePalette()" matTooltip="Background options">
+        <mat-icon class="icon">palette</mat-icon>
+      </button>
+
+      <div class="color-palette" *ngIf="showPalette">
+        <div
+          *ngFor="let color of colors; let i = index"
+          class="color-swatch"
+          [class.selected]="selectedColorIndex === i"
+          [style.backgroundColor]="color.startsWith('pattern-') ? 'transparent' : color"
+          [attr.data-color]="color"
+          [matTooltip]="getColorTooltip(color, i)"
+          (click)="selectColor(color)"
+        ></div>
+      </div>
+      <mat-menu #reminderMenu="matMenu" class="reminder-menu">
+        <!-- Dynamic reminder options from ReminderService -->
+        <button
+          mat-menu-item
+          *ngFor="let option of reminderOptions"
+          (click)="setReminder(option.id)"
+          class="reminder-option"
+        >
+          <mat-icon class="reminder-option-icon">{{ option.icon }}</mat-icon>
+          <div class="reminder-option-content">
+            <span class="reminder-option-label">{{ option.label }}</span>
+            <span class="reminder-option-description">{{ option.description }}</span>
+          </div>
+        </button>
+
+        <!-- Divider -->
+        <mat-divider></mat-divider>
+
+        <!-- Remove reminder option -->
+        <button
+          mat-menu-item
+          (click)="reminderRemove.emit()"
+          class="reminder-remove-option"
+          *ngIf="note?.reminder"
+        >
+          <mat-icon class="reminder-option-icon">notifications_off</mat-icon>
+          <span>Remove reminder</span>
+        </button>
+      </mat-menu>
+      <button class="icon-btn" [matMenuTriggerFor]="reminderMenu" id="reminder" matTooltip="Remind me">
+        <mat-icon class="icon">add_alert</mat-icon>
+      </button>
+      <button class="icon-btn" id="collaborator" matTooltip="Collaborator">
+        <mat-icon class="icon">person_add</mat-icon>
+      </button>
+      <button class="icon-btn" id="image" matTooltip="Add image">
+        <mat-icon class="icon">image</mat-icon>
+      </button>
+      <button
+        class="icon-btn"
+        id="archive"
+        (click)="toggleArchive.emit(!isArchived)"
+        [matTooltip]="isArchived ? 'Unarchive' : 'Archive'"
+      >
+        <mat-icon class="icon">{{
+          isArchived ? "unarchive" : "archive"
+        }}</mat-icon>
+      </button>
+
+      <button class="icon-btn" id="three-dots" [matMenuTriggerFor]="moreMenu" matTooltip="More">
+        <mat-icon class="icon">more_vert</mat-icon>
+      </button>
+
+      <mat-menu #moreMenu="matMenu">
+        <button mat-menu-item (click)="moveToTrash.emit()">
+          <mat-icon>delete</mat-icon>
+          <span>Delete note</span>
+        </button>
+        <button mat-menu-item (click)="openLabelDialog()">
+          <mat-icon>label</mat-icon>
+          <span>Add label</span>
+        </button>
+        <button mat-menu-item (click)="onAddDrawing()">
+          <mat-icon>brush</mat-icon>
+          <span>Add drawing</span>
+        </button>
+        <button mat-menu-item (click)="onCopyNote()">
+          <mat-icon>content_copy</mat-icon>
+          <span>Make a copy</span>
+        </button>
+        <button mat-menu-item (click)="onShowCheckboxes()">
+          <mat-icon>check_box</mat-icon>
+          <span>Show checkboxes</span>
+        </button>
+        <button mat-menu-item (click)="onCopyToGoogleDocs()">
+          <mat-icon>description</mat-icon>
+          <span>Copy to clipboard</span>
+        </button>
+        <button mat-menu-item (click)="onVersionHistory()">
+          <mat-icon>history</mat-icon>
+          <span>Version history</span>
+        </button>
+      </mat-menu>
+
+      <button class="icon-btn" id="undo" *ngIf="showAll" matTooltip="Undo">
+        <mat-icon class="icon">undo</mat-icon>
+      </button>
+      <button class="icon-btn" id="redo" *ngIf="showAll" matTooltip="Redo">
+        <mat-icon class="icon">redo</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+
+  <div class="right-icon">
+    <!-- Close button only shows in note form, not in dialog -->
+    <button id="close-btn" (click)="closeBox()" *ngIf="showAll && !inDialog">Close</button>
+  </div>
+</div>

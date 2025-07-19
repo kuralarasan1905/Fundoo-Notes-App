@@ -1,0 +1,360 @@
+// Google Keep Icons Styling
+.icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-top: 8px;
+  padding: 0;
+  color: #5f6368;
+  gap: 4px;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+
+  @media (max-width: 600px) {
+    gap: 4px;
+
+    .icon-btn {
+      padding: 6px;
+      width: 28px;
+      height: 28px;
+
+      .icon {
+        font-size: 16px;
+      }
+    }
+
+    #close-btn {
+      font-size: 13px;
+      padding: 6px 10px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    gap: 2px;
+
+    .icon-btn {
+      padding: 4px;
+      width: 24px;
+      height: 24px;
+
+      .icon {
+        font-size: 14px;
+      }
+    }
+
+    #close-btn {
+      font-size: 12px;
+      padding: 5px 8px;
+    }
+  }
+}
+
+.left-icon {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  @media (max-width: 768px) {
+    margin-left: -1rem;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.right-icon {
+  margin-left: auto;
+
+  #close-btn {
+    background: none;
+    border: none;
+    color: #5f6368;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    min-width: 64px;
+    text-align: center;
+
+    &:hover {
+      background-color: rgba(95, 99, 104, 0.08);
+      color: #202124;
+    }
+
+    &:active {
+      background-color: rgba(95, 99, 104, 0.12);
+    }
+  }
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  transition: all 0.2s ease;
+
+  .icon {
+    font-size: 18px;
+    color: #5f6368;
+  }
+
+  &:hover {
+    background-color: rgba(95, 99, 104, 0.1);
+
+    .icon {
+      color: #202124;
+    }
+  }
+}
+
+.color-palette {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); // 7 colors per row for 14 total
+  grid-template-rows: repeat(2, 1fr); // 2 rows
+  gap: 8px;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  z-index: 2000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: none; // Remove border for cleaner look
+  width: 280px; // Smaller width for fewer colors
+
+  // Google Keep style arrow pointing up
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #ffffff;
+  }
+
+  // Dark theme adjustments
+  .dark-theme & {
+    background: #2d2e30;
+    border-color: #5f6368;
+
+    &::before {
+      border-top-color: #2d2e30;
+    }
+  }
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none; // Remove all borders for clean look
+  transition: all 0.2s ease;
+  position: relative;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  // Selected state - simple ring indicator
+  &.selected {
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.3);
+
+    &::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: bold;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+  }
+
+  &:first-child {
+    // Default color (no color) - clean white with subtle indicator
+    background: #ffffff;
+    border: 1px solid #e0e0e0; // Subtle border for white color visibility
+    position: relative;
+
+    // Simple diagonal line indicator
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 16px;
+      height: 2px;
+      background: #9aa0a6;
+      border-radius: 1px;
+      z-index: 0;
+    }
+
+    &:hover {
+      border: 1px solid #1a73e8;
+    }
+
+    &.selected {
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.3);
+
+      &::after {
+        color: #1a73e8;
+        text-shadow: none;
+      }
+    }
+
+    // Dark theme adjustments
+    .dark-theme & {
+      background: #2d2e30;
+      border-color: #5f6368;
+
+      &::before {
+        background: #9aa0a6;
+      }
+    }
+  }
+
+}
+
+// Enhanced reminder menu styling (Google Keep style)
+::ng-deep .reminder-menu {
+  .mat-mdc-menu-content {
+    padding: 8px 0;
+    min-width: 240px;
+  }
+
+  .reminder-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    min-height: 48px;
+
+    .reminder-option-icon {
+      margin-right: 12px;
+      color: #5f6368;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .reminder-option-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .reminder-option-label {
+        font-size: 14px;
+        font-weight: 400;
+        color: #202124;
+        line-height: 20px;
+      }
+
+      .reminder-option-description {
+        font-size: 12px;
+        color: #5f6368;
+        line-height: 16px;
+        margin-top: 2px;
+      }
+    }
+
+    &:hover {
+      background-color: rgba(95, 99, 104, 0.04);
+    }
+  }
+
+  .reminder-remove-option {
+    color: #d93025;
+
+    .reminder-option-icon {
+      color: #d93025;
+    }
+
+    &:hover {
+      background-color: rgba(217, 48, 37, 0.04);
+    }
+  }
+
+  .mat-divider {
+    margin: 8px 0;
+    border-color: rgba(95, 99, 104, 0.12);
+  }
+}
+
+// Dark theme reminder menu adjustments
+.dark-theme ::ng-deep .reminder-menu {
+  .reminder-option-content {
+    .reminder-option-label {
+      color: #e8eaed;
+    }
+
+    .reminder-option-description {
+      color: #9aa0a6;
+    }
+  }
+
+  .reminder-option:hover {
+    background-color: rgba(232, 234, 237, 0.08);
+  }
+
+  .reminder-remove-option:hover {
+    background-color: rgba(217, 48, 37, 0.08);
+  }
+
+  .mat-divider {
+    border-color: rgba(232, 234, 237, 0.12);
+  }
+}
+
+// More menu styling
+::ng-deep .mat-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--icon-color);
+  }
+
+  span {
+    color: var(--text-color);
+  }
+}

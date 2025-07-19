@@ -1,0 +1,201 @@
+<div class="note-shared-wrapper">
+  <!-- Offline indicator (Google Keep style) -->
+  <div class="offline-indicator" *ngIf="!backendAvailable">
+    <mat-icon>cloud_off</mat-icon>
+    <span>Working offline - Please login to sync with server</span>
+  </div>
+
+  <!-- Label filter indicator -->
+  <div class="label-filter-indicator" *ngIf="selectedLabelId">
+    <mat-icon>label_outline</mat-icon>
+    <span>{{ selectedLabelName || 'Selected label' }}</span>
+  </div>
+
+  <div class="note-form-container" *ngIf="!searchText">
+    <form
+      [formGroup]="notes"
+      class="note-form"
+      [ngStyle]="{ 'background-color': selectedColor }"
+    >
+      <div class="form-content">
+        <input
+          formControlName="title"
+          [placeholder]="getNotePlaceholder()"
+          class="note-input"
+          type="text"
+          (click)="expandForm()"
+          (focus)="expandForm()"
+          #titleInput
+        />
+
+        <div class="collapsed-icons" *ngIf="!isExpanded">
+          <button mat-icon-button class="icon-btn" matTooltip="New list">
+            <mat-icon>check_box</mat-icon>
+          </button>
+          <button mat-icon-button class="icon-btn" matTooltip="New note with drawing">
+            <mat-icon>brush</mat-icon>
+          </button>
+          <button mat-icon-button class="icon-btn" matTooltip="New note with image">
+            <mat-icon>image</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <button
+        *ngIf="isExpanded"
+        mat-icon-button
+        class="pin-btn"
+        (click)="togglePin()"
+        [matTooltip]="isPinned ? 'Unpin' : 'Pin'"
+        type="button"
+      >
+        <mat-icon class="pin-icon" [class.pinned]="isPinned">
+          {{ isPinned ? "push_pin" : "push_pin" }}
+        </mat-icon>
+      </button>
+
+      <textarea
+        *ngIf="isExpanded"
+        formControlName="content"
+        placeholder="Take a note..."
+        class="note-textarea"
+        rows="3"
+      ></textarea>
+
+      <div *ngIf="isExpanded" class="form-footer">
+        <app-icons
+          [showAll]="true"
+          (colorSelect)="onColorSelected($event)"
+          (closeBtn)="onCloseNote($event)"
+        ></app-icons>
+      </div>
+    </form>
+
+    <!-- Label auto-assignment indicator -->
+    <div class="label-auto-assign-indicator" *ngIf="selectedLabelId && isExpanded">
+      <mat-icon>label</mat-icon>
+      <span>New notes will be labeled: {{ selectedLabelName }}</span>
+    </div>
+  </div>
+
+  <!-- Debug info -->
+  <!-- <div style="background: #f0f0f0; padding: 10px; margin: 10px; border-radius: 4px; font-size: 12px;">
+    <p><strong> DEBUG INFO:</strong></p>
+    <p>Total notes: {{ noteList.length }}</p>
+    <p>Pinned notes: {{ pinnedNotes.length }}</p>
+    <p>Other notes: {{ otherNotes.length }}</p>
+    <p>Backend available: {{ backendAvailable }}</p>
+    <p>Search text: "{{ searchText }}"</p>
+    <details>
+      <summary>Raw note data (click to expand)</summary>
+      <pre>{{ noteList | json }}</pre>
+    </details>
+  </div> -->
+
+  <!-- CONDITIONAL DISPLAY -->
+  <ng-container *ngIf="pinnedNotes.length > 0; else allNotes">
+    <!-- PINNED SECTION -->
+    <div class="note-section">
+      <ng-container [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'list'" class="note-list-wrapper">
+          <h4 class="section-heading">PINNED</h4>
+          <div class="note-grid list">
+            <app-note-card
+              *ngFor="let note of pinnedNotes"
+              [note]="note"
+              [viewMode]="viewMode"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+              (refreshNotes)="loadNotes()"
+            ></app-note-card>
+          </div>
+        </div>
+        <div *ngSwitchCase="'grid'">
+          <h4 class="section-heading">PINNED</h4>
+          <div class="note-grid grid">
+            <app-note-card
+              *ngFor="let note of pinnedNotes"
+              [note]="note"
+              [viewMode]="viewMode"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+              (refreshNotes)="loadNotes()"
+            ></app-note-card>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- OTHERS SECTION -->
+    <div *ngIf="otherNotes.length > 0" class="note-section">
+      <ng-container [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'list'" class="note-list-wrapper">
+          <h4 class="section-heading">OTHERS</h4>
+          <div class="note-grid list">
+            <app-note-card
+              *ngFor="let note of otherNotes"
+              [note]="note"
+              [viewMode]="viewMode"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+              (refreshNotes)="loadNotes()"
+            ></app-note-card>
+          </div>
+        </div>
+        <div *ngSwitchCase="'grid'">
+          <h4 class="section-heading">OTHERS</h4>
+          <div class="note-grid grid">
+            <app-note-card
+              *ngFor="let note of otherNotes"
+              [note]="note"
+              [viewMode]="viewMode"
+              (openDialog)="onEditNote(note)"
+              (archiveNote)="onArchiveNote($event)"
+              (moveToTrash)="onTrashNote($event)"
+              (togglePin)="onTogglePin($event)"
+              (refreshNotes)="loadNotes()"
+            ></app-note-card>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <!-- DEFAULT: All notes with no heading -->
+  <ng-template #allNotes>
+    <ng-container [ngSwitch]="viewMode">
+      <div *ngSwitchCase="'list'" class="note-list-wrapper">
+        <div class="note-grid list">
+          <app-note-card
+            *ngFor="let note of filteredNotes"
+            [note]="note"
+            [viewMode]="viewMode"
+            (openDialog)="onEditNote(note)"
+            (archiveNote)="onArchiveNote($event)"
+            (moveToTrash)="onTrashNote($event)"
+            (togglePin)="onTogglePin($event)"
+            (refreshNotes)="loadNotes()"
+          ></app-note-card>
+        </div>
+      </div>
+      <div *ngSwitchCase="'grid'" class="note-grid grid">
+        <app-note-card
+          *ngFor="let note of filteredNotes"
+          [note]="note"
+          [viewMode]="viewMode"
+          (openDialog)="onEditNote(note)"
+          (archiveNote)="onArchiveNote($event)"
+          (moveToTrash)="onTrashNote($event)"
+          (togglePin)="onTogglePin($event)"
+          (refreshNotes)="loadNotes()"
+        ></app-note-card>
+      </div>
+    </ng-container>
+  </ng-template>
+</div>
