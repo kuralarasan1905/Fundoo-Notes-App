@@ -77,6 +77,10 @@ dotnet run
 3. Make your changes
 4. Submit a pull request
 
+## Author
+
+Developed by **Kural1905** - A complete Google Keep-inspired notes application.
+
 ## License
 
 This project is licensed under the MIT License.
